@@ -1,0 +1,46 @@
+<html>
+    <script>
+        var database = [
+            {id:"michael",password:"maxie",role:"admin"},
+            {id:"dino",password:"ggwp",role:"admin"},
+            {id:"robin",password:"dota",role:"user"}
+        ];
+        var login = true;
+            do {
+            var menuAwal = prompt("1.Login\n2.Register\n3.Exit");
+            if (menuAwal == 1) {
+                var inputid = prompt("Masukan ID:");
+                checkLoginId();
+                var inputpass = prompt("Masukan Password:");
+                login = false;
+            } else if (menuAwal == 2) {
+                var regisid = prompt("Masukan ID yang ingin di register:");
+                checkRegisterId();
+                var regispass = prompt("Masukan password:");
+                database.push({id:regisid,password:regispass,role:"user"});
+                login = false;
+            } else {
+                login = false;
+            }
+        } while (login);
+        function checkRegisterId(){
+            for (i = 0;i < database.id;i++) {
+                if (regisid == database[i].id) {
+                    alert("ID yang km masukan sudah terdaftar");
+                    return;
+                }
+            }
+        }
+        function checkLoginId(){
+            database.map((val,index) => {
+                if ( inputid !== database[index].id ) { 
+                    var checkFail = true;
+                    return;
+                } else {
+                    var checkFail = false;
+                    return;
+                }
+            });
+        }
+    </script>
+</html>

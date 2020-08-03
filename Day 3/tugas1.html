@@ -1,0 +1,36 @@
+<html>
+  <script>
+    let stockApple = 10;
+    let stockAnggur = 10;
+    let stockJeruk = 5;
+    let hargaApple = 10000;
+    let hargaAnggur = 5000;
+    let hargaJeruk = 10000;
+    alert("Harga Apple: 10000\nHarga Anggur: 5000\nHarga Jeruk: 10000");
+    let apple = prompt("Masukan jumlah Apple:");
+    let anggur = prompt("Masukan jumlah Anggur:");
+    let jeruk = prompt("Masukan jumlah Jeruk:");
+    if (apple < 1 || anggur < 1 || jeruk < 1) {
+      alert("Input salah transaksi dibatalkan");
+    } else if (apple > stockApple) {
+      alert(
+        "Kesalahan dalam input, stock Apple = " +stockApple +" , transaksi batal");
+    } else if (anggur > stockAnggur) {
+      alert(
+        "Kesalahan dalam input, stock Anggur = " +stockAnggur +" , transaksi batal");
+    } else if (jeruk > stockJeruk) {
+      alert(
+        "Kesalahan dalam input, stock Jeruk = " +stockJeruk +" , transaksi batal");
+    } else {
+      let uang = prompt("Masukan jumlah uang:");
+      let total = apple * hargaApple + anggur * hargaAnggur + jeruk * hargaJeruk;
+      if (uang > total) {
+        alert("Kembali kamu " + (uang - total) + " , Terima Kasih");
+      } else if (uang < total) {
+        alert("Uang kamu kurang " + (uang - total));
+      } else {
+        alert("Terima Kasih");
+      }
+    }
+  </script>
+</html>

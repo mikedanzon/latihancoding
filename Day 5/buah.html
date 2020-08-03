@@ -1,0 +1,113 @@
+<html>
+    <script>
+        let stockBuah = [10, 10, 5];
+        let hargaBuah = [10000, 5000, 10000];
+        let buah = ["Apple", "Anggur", "Jeruk"];
+        let daftarBuah = "";
+        let daftarBuahHapus = "";
+        let stockBuahNum = 0;
+        let hargaBuahNum = 0;
+        let checkStock = true;
+        let checkHarga = true;
+        let checkHapusBuah = true;
+        let checkUang = true;
+        let hapusBuah = "";
+        let menuUtama = "";
+        let listHarga = "";
+        let jumlahBuah = [];
+        let uang = 0;
+        let total = 0;
+        let menu = true;
+        alert("Selamat datang di toko buah MAX");
+        do {
+            menuUtama = parseInt(prompt("1. Menampilkan Daftar Buah\n2. Tambah Buah\n3. Hapus Buah\n4. Membeli Buah\n5. Exit"));
+            if (menuUtama == 1) {
+                for (i = 0; i < buah.length; i++) {
+                    daftarBuah += buah[i]+" | "+stockBuah[i]+" | "+hargaBuah[i]+"\n";
+                }
+                alert("Daftar Buah\n\nNama Buah | Stock | Harga\n"+daftarBuah);
+                daftarBuah = ""; // reset elemen untuk loop
+                menu = confirm("Kembali ke menu ?");
+            } else if (menuUtama == 2) {
+                buah.push(prompt("Masukan nama buah:"));
+                do {
+                    stockBuahNum = parseInt(prompt("Masukan jumlah stock:"));
+                    if (isNaN(stockBuahNum)) {
+                        alert("Hanya boleh masukan angka");
+                    } else {
+                        stockBuah.push(stockBuahNum);
+                        checkStock = false;
+                    }
+                }
+                while (checkStock);
+                do {
+                    hargaBuahNum = parseInt(prompt("Masukan jumlah harga satuan:"));
+                    if (isNaN(hargaBuahNum)) {
+                        alert("Hanya boleh masukan angka");
+                    } else {
+                        hargaBuah.push(hargaBuahNum)
+                        checkHarga = false;
+                    }
+                }
+                while (checkHarga)
+            } else if (menuUtama == 3) {
+                for (i = 0; i < buah.length; i++) {
+                    daftarBuahHapus += (i+1)+" "+buah[i]+"\n";
+                }
+                do {
+                    hapusBuah = parseInt(prompt("Pilih buah yang ingin di hapus:\n\n"+daftarBuahHapus));
+                    if (isNaN(hapusBuah) || hapusBuah > buah.length || hapusBuah < 1) {
+                        alert("Hanya boleh masukan angka 1 - "+buah.length);
+                    } else {
+                        daftarBuahHapus = ""; // reset elemen untuk loop
+                        buah.splice((hapusBuah-1), 1)
+                        stockBuah.splice((hapusBuah-1), 1);
+                        hargaBuah.splice((hapusBuah-1), 1);
+                        checkHapusBuah = false;
+                    }
+                }
+                while (checkHapusBuah);
+            } else if (menuUtama == 4) {
+                total = 0; // reset elemen untuk loop
+                uang = 0; // reset elemen untuk loop
+                jumlahBuah = []; // reset elemen untuk loop
+                for (i = 0; i < buah.length; i++) {
+                    listHarga += "Harga "+buah[i]+": "+hargaBuah[i];
+                    listHarga += "\n";
+                }
+                alert (listHarga);
+                listHarga = ""; // reset elemen untuk loop
+                for (i = 0; i < buah.length; i++ ) {
+                    jumlahBuah.push(parseInt(prompt("Masukan jumlah "+buah[i]+":")));
+                }
+                do {
+                    uang = parseInt(prompt("Masukan jumlah uang:"));
+                    if (isNaN(uang)) {
+                        alert("Hanya boleh masukan angka");
+                        checkUang = true;
+                    } else {
+                        checkUang = false;
+                    }
+                }
+                while (checkUang);
+                for (i = 0; i < jumlahBuah.length; i++ ) {
+                    total += parseInt(jumlahBuah[i] * hargaBuah[i]);
+                }
+                alert("Total harga belanja kamu: "+total)
+                if (uang > total) {
+                    alert("Kembali kamu "+(uang-total)+", Terima Kasih")
+                    menu = confirm("Kembali ke menu ?");
+                } else if (uang < total) {
+                    alert("Uang kamu kurang "+(total-uang))
+                    menu = confirm("Kembali ke menu ?");
+                } else {
+                    alert("Terima Kasih")
+                    menu = confirm("Kembali ke menu ?");
+                }
+            } else {
+                break;
+            }
+        } 
+        while (menu);
+    </script>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Max</title>
+</head>
+<script>
+    function kuadrat(){
+        let output = document.getElementById("form").value;
+        return document.getElementById("hasil").innerHTML = output * output;
+    }
+</script>
+<body>
+    <form>
+        Masukkan angka: <input tye="number">
+    </form>
+    <button onclick="kuadrat()">Kuadratkan!</button>
+    <p id ="hasil"> Hasil </p>
+</body>
+</html>

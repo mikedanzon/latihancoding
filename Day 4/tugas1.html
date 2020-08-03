@@ -1,0 +1,76 @@
+<html>
+  <script>
+    // kasi alert selamat datang *tambahan
+    // menu utama ? 1. masuk / 2. exit *tambahan
+    // prompt kasih belanja lagi gak diujung , stock di kurangin setelah belanja *tambahan
+    let menu = true; // masukin variable buat loop
+    // let stockBuah = [10, 10, 5];
+    // let hargaBuah = [10000, 5000, 10000];
+    // let buah = ["Apple", "Anggur", "Jeruk"];
+    let stockApple = 10; // Stock Apple
+    let stockAnggur = 10; // Stock Anggur
+    let stockJeruk = 5; // Stock Jeruk
+    let hargaApple = 10000; // Harga Apple
+    let hargaAnggur = 5000; // Harga Anggur
+    let hargaJeruk = 10000; // Harga Jeruk
+    do {
+        alert("Selamat datang");
+        let menuSatu = prompt("1. Masuk\n2. Keluar");
+        if (menuSatu < 1 || menuSatu > 2) {
+            alert("Input salah");
+        } else if (menuSatu == 2) {
+            break;
+        } else {
+          alert("Harga Apple: 10000\nHarga Anggur: 5000\nHarga Jeruk: 10000");
+          let apple = prompt("Masukan jumlah Apple:"); // salah input = keluar *tambahan
+          if (apple > stockApple) {
+            alert("Stock apple sisa "+stockApple+" silahkan ulang kembali")
+          } else {
+            let anggur = prompt("Masukan jumlah Anggur:");
+            if (anggur > stockAnggur) {
+              alert("Stock anggur sisa "+stockAnggur+" silahkan ulang kembali")
+              } else {
+              let jeruk = prompt("Masukan jumlah Jeruk:");
+              if (jeruk > stockJeruk) {
+                alert("Stock jeruk sisa "+stockJeruk+" silahkan ulang kembali")
+                } else {
+                if (apple < 1 || anggur < 1 || jeruk < 1) {
+                  i += 2; // Batalin looping
+                  alert("Input salah transaksi dibatalkan");
+                } else if (apple > stockApple) {
+                  i += 2; // Batalin looping
+                  alert("Kesalahan dalam input, stock Apple = " +stockApple +" , transaksi batal");
+                } else if (anggur > stockAnggur) {
+                  i += 2; // Batalin looping
+                  alert("Kesalahan dalam input, stock Anggur = " +stockAnggur +" , transaksi batal");
+                } else if (jeruk > stockJeruk) {
+                  i += 2; // Batalin looping
+                  alert("Kesalahan dalam input, stock Jeruk = " +stockJeruk +" , transaksi batal");
+                } else {
+                  let uang = prompt("Masukan jumlah uang:");
+                  let total = (apple * hargaApple) + (anggur * hargaAnggur) + (jeruk * hargaJeruk);
+                  stockApple -= apple; // dikurangin setelah belanja
+                  stockAnggur -= anggur;
+                  stockJeruk -= jeruk;
+                  if (uang > total) {
+                    let uangKembali = parseInt(prompt("Kembali kamu " + (uang - total) + " , Terima Kasih\nApakah kamu ingin belanja lagi ?\n1. Iya , 2. Tidak"));
+                    if (uangKembali == 1) {
+                      menu = true;
+                    }
+                  } else if (uang < total) {
+                    alert("Uang kamu kurang " + (uang - total));
+                  } else {
+                    let uangPas = parseInt(prompt("Terima Kasih\nApakah kamu ingin belanja lagi ?\n1. Iya , 2. Tidak"));
+                    if (uangPas == 1) {
+                      menu = true;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      } 
+    while (menu);
+  </script>
+</html>

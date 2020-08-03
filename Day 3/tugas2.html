@@ -1,0 +1,69 @@
+<html>
+    <script>
+        let kendaraan = prompt("Pilih salah satu:\n1. Mobil\n2. Motor");
+        kendaraan = parseInt(kendaraan);
+        if (kendaraan < 1 || kendaraan > 2) {
+            alert("Salah input kendaraan");
+        } else {
+            let masuk = prompt("Masukan jam masuk(0-11):");
+            masuk = parseInt(masuk);
+            if (masuk > 11) {
+                alert("Salah input masuk");
+            } else {
+                let masukType = prompt("PM / AM ?\n1. AM , 2. PM")
+                masukType = parseInt(masukType);
+                if (masukType < 1 || masukType > 2) {
+                    alert("Salah input AM PM");
+                } else {
+                    let keluar = prompt("Masukan jam keluar:");
+                    keluar = parseInt(keluar);
+                    if (keluar > 11) {
+                        alert("Salah input keluar");
+                    } else {
+                        let keluarType = prompt("PM / AM ?\n1. AM , 2. PM")
+                        keluarType = parseInt(keluarType);
+                        if (keluarType < 1 || keluarType > 2) {
+                            alert("Salah input AM PM");
+                        } else {
+                            let totalJam = 0;
+                            if (masukType == 1 && keluarType == 1) {
+                                totalJam = keluar - masuk;
+                                alert(totalJam);
+                            } else if (masukType == 1 && keluarType == 2) {
+                                totalJam = (keluar + 12) - masuk;
+                                alert(totalJam);
+                            } else if (masukType == 2 && keluarType == 2) {
+                                totalJam = keluar - masuk;
+                                alert(totalJam);
+                            } else if (masukType == 2 && keluarType == 1) {
+                                totalJam = (keluar + 12) - masuk;
+                                alert(totalJam);
+                            }
+                            if (kendaraan == 1) {
+                                let biayaParkirMobil = 0;
+                                if (totalJam == 1) {
+                                    biayaParkirMobil += 5000;
+                                } else if (totalJam == 2) {
+                                    biayaParkirMobil += 10000;
+                                } else {
+                                    biayaParkirMobil += 10000 + ((totalJam - 2) * 2000);
+                                }
+                                alert("Anda parkir selama "+totalJam+" jam , dan biaya parkir anda "+biayaParkirMobil)
+                            } else if (kendaraan == 2) {
+                                let biayaParkirMotor = 0;
+                                if (totalJam == 1) {
+                                    biayaParkirMotor += 3000;
+                                } else if (totalJam == 2) {
+                                    biayaParkirMotor += 6000;
+                                } else {
+                                    biayaParkirMotor += 6000 + ((TotalJam -2) * 1000)
+                                }
+                                alert("Anda parkir selama "+totalJam+" jam , dan biaya parkir anda "+biayaParkirMotor)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</html>
