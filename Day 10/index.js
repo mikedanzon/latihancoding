@@ -1,0 +1,1 @@
+var a = "ga ada pembahasan baru"
