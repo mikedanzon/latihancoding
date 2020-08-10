@@ -1,0 +1,1 @@
+var test = "gada latihan langsung pr lagi"
