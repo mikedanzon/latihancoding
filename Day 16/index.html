@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Max</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama Kegiatan</th>
+                    <th>Gambar</th>
+                    <th>Hari</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="isinya">
+
+            </tbody>
+            <tfoot id="tambahan">
+
+            </tfoot>
+        </table>
+    </center>
+</body>
+<script>
+    let isiTable = [
+        {kegiatan:"lari",gambar:"https://www.femina.co.id/images/images/PERSIAPAN%20LARI.jpg",hari:"senin"},
+        {kegiatan:"shopping",gambar:"https://www.parkgrandpaddingtoncourt.co.uk/blog/wp-content/uploads/2017/10/Shopping.jpg",hari:"selasa"}
+    ]
+
+    document.getElementById("tambahan").innerHTML = `
+    <tr>
+        <td></td>
+        <td><input type="text" placeholder="nama kegiatan" id="inputKegiatan"></td>
+        <td><input type="text" placeholder="Gambar" id="inputGambar"></td>
+        <td><select id="inputHari">${hariSelect()}</select></td>
+        <td><input type="button" value="input data" onclick="funInput()"></td>
+    </tr>`;
+
+    function hariSelect(hari) {
+        var hariN = ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"];
+        var indexHari = hariN.findIndex((val)=>val == hari)
+        return hariN.map ((val,index)=>{
+            if (indexHari == index) {
+                return `<option value='${val}' selected>${val}</option>`
+            }
+            return `<option value='${val}'>${val}</option>`
+        })
+    }
+
+    function funInput() {
+        var kegiatan = document.getElementById("inputKegiatan").value;
+        var gambar = document.getElementById("inputGambar").value;
+        var hari = document.getElementById("inputHari").value;
+        var input = {kegiatan:kegiatan,gambar:gambar,hari:hari}
+        isiTable.push(input)
+        tampilTable()
+    }
+
+    function saveData(num) {
+        var kegiatan = document.getElementById("inputKegiatan").value;
+        var gambar = document.getElementById("inputGambar").value;
+        var hari = document.getElementById("inputHari").value;
+        for (var i = 0; i < isiTable.length; i++) {
+            if (isiTable[i].kegiatan == num) {
+                isiTable[i].kegiatan = kegiatan;
+                isiTable[i].gambar = gambar;
+                isiTable[i].hari = hari;
+                break;
+            }
+        }
+        tampilTable();
+    }
+
+    function delData(num) {
+        for (var i = 0; i < isiTable.length; i++) {
+            if (num == isiTable[i].kegiatan) {
+                isiTable.splice([i], 1);
+            }
+        }
+        tampilTable();
+    }
+
+    function tampilTable(num) {
+        var output = isiTable.map((val,index)=>{
+            if (num == (val.kegiatan + 'edit')) {
+                return (
+                    `<tr>
+                        <td>${index+1}</td>
+                        <td><input type="text" value="${val.kegiatan}" id="inputKegiatan"></td>
+                        <td><input type="text" value="${val.gambar}" id="inputGambar"></td>
+                        <td><select id="inputHari">${hariSelect('${val.hari}')}</select></td>
+                        <td><input type="button" value="Save" onclick="saveData('${val.kegiatan}')">
+                        <input type="button" value="Cancel" onclick="tampilTable()"></td>
+                    </tr>`
+                )
+            } else if (num == (val.kegiatan + 'del')) {
+                return (
+                    `<tr>
+                        <td>${index+1}</td>
+                        <td>${val.kegiatan}</td>
+                        <td><img src="${val.gambar}" alt="${val.kegiatan}" height="250"></td>
+                        <td>${val.hari}</td>
+                        <td><input type="button" value="Yakin ?" onclick="delData('${val.kegiatan}')">
+                        <input type="button" value="Cancel" onclick="tampilTable()"></td>
+                    </tr>`
+                )
+            }
+            return (
+                `<tr>
+                    <td>${index+1}</td>
+                    <td>${val.kegiatan}</td>
+                    <td><img src="${val.gambar}" alt="${val.kegiatan}" height="250"></td>
+                    <td>${val.hari}</td>
+                    <td><input type="button" value="Edit" onclick="tampilTable('${val.kegiatan}' + 'edit')">
+                    <input type="button" value="Delete" onclick="tampilTable('${val.kegiatan}' + 'del')"></td>
+                </tr>`
+            )
+        })
+        document.getElementById("isinya").innerHTML = output.join("");
+    }
+    tampilTable();
+</script>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Max</title>
+</head>
+<body>
+    <center>
+    <h1>Login Register</h1>
+    <p>username:<input type="text" id="username"></p>
+    <p>password:<input type="password" id="password"></p>
+    <input type="button" value="Register" onclick="funRegister()">
+    <input type="button" value="Login" onclick="funLogin()">
+    <h3 id="notif"></h3>
+    <p id="logout"></p>
+    </center>
+</body>
+<script>
+    // user 1 = normal , 2 = admin
+    let database = [
+        {id:"max",pass:"haha",user:2}
+    ]
+
+    // cek kalo password kosong
+    function funRegister() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var tambah = "";
+        var output = "";
+        for (var i = 0; i < database.length; i++) {
+            if (username !== database[i].id) {
+                output = "Register berhasil silahkan login";
+                tambah = {id:username,pass:password,user:1};
+                database.push(tambah)
+                break;
+            } else if (username == database[i].id) {
+                output = "Username sudah terpakai";
+            }
+        }
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("notif").innerHTML = output;
+    }
+
+    function funLogin() { // masuk sebagai user , username adalah (username) , logout dibawahnya
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var output = "";
+        var login = 0;
+        for (var i = 0; i < database.length; i++) {
+            if (login == 1) {
+                output = `<p>silahkan logout terlebih dahulu</p>`;
+            } else if (username == database[i].id && password == database[i].pass && database[i].user == 2) {
+                output = `<p>masuk sebagai admin</p><p>username adalah ${username}</p>`;
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                login = 1;
+            } else if (username == database[i].id && password == database[i].pass && database[i].user == 1) {
+                output = `<p>masuk sebagai user</p><p>username adalah ${username}</p>`;
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                login = 1;
+            } else {
+                output = `<p>id atau password salah</p>`;
+            }
+        }
+        document.getElementById("notif").innerHTML = output;
+        document.getElementById("logout").innerHTML = `<input type="button" value="logout" onclick="funLogout()">`
+    }
+
+    function funLogout() {
+        document.getElementById("notif").innerHTML = "";
+        document.getElementById("logout").innerHTML = "";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        login = 0;
+    }
+</script>
+</html>

@@ -26,8 +26,6 @@
 
 // console.log(ganjilgenap('B 125 RDK'))
 
-// tugas , buat : password harus ada huruf besar,kecil,angka (tanpa regex)
-
 function anggi(boll) {
     return boll?'rafi':'hana';
 }
