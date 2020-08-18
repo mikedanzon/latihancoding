@@ -104,10 +104,10 @@
 </body>
 <script>
 var isiData = [
-    {id:22120,nama:"Vape",price:500000,category:"Elektronik",stock:17},
-    {id:22121,nama:"Supreme",price:740000,category:"Pakaian",stock:35},
+    {id:22120,nama:"Vape",price:500000,category:"Elektronik",stock:7},
+    {id:22121,nama:"Supreme",price:740000,category:"Pakaian",stock:5},
     {id:22122,nama:"Headunit",price:1500000,category:"Otomotif",stock:21},
-    {id:22123,nama:"Xiaomi",price:5000000,category:"Elektronik",stock:53}
+    {id:22123,nama:"Xiaomi",price:5000000,category:"Elektronik",stock:13}
 ];
 
 var isiCart = [];
@@ -162,12 +162,20 @@ function funDelConfirm(num) {
 }
 
 function funDelCartConfirm(num) {
+    var jumlah = 0;
     for (var i = 0; i < isiCart.length; i++) {
         if (isiCart[i].id == num) {
+            jumlah = isiCart[i].stock;
             isiCart.splice([i], 1);
         }
     }
+    for (var i = 0; i < isiData.length; i++) {
+        if (isiData[i].id == num) {
+            isiData[i].stock += jumlah;
+        }
+    }
     tampilCart();
+    tampilData();
 }
 
 function funEditConfirm(num) {
@@ -188,31 +196,41 @@ function funEditConfirm(num) {
 
 function tambahCart(num) {
     var tambah = [];
-    var pushGa = 0;
+    var pushGa = true;
+    var habis = false;
     for (var i = 0; i < isiData.length; i++) {
         if (isiData[i].id == num) {
-            tambah = {id:isiData[i].id,nama:isiData[i].nama,price:isiData[i].price,category:isiData[i].category,qty:1}
+            tambah = {id:isiData[i].id,nama:isiData[i].nama,price:isiData[i].price,category:isiData[i].category,stock:1}
+            if (isiData[i].stock > 0) {
+                isiData[i].stock -= 1;
+            } else {
+                alert("Stock sudah habis")
+                habis = true;
+            }
         }
     }
-    for (var i = 0; i < isiCart.length; i++) {
-        if (isiCart[i].id == tambah.id) {
-            isiCart[i].qty += 1;
-            pushGa = 1;
+    if (!habis) {
+        for (var i = 0; i < isiCart.length; i++) {
+            if (isiCart[i].id == tambah.id) {
+                isiCart[i].stock += 1;
+                pushGa = false;
+            }
         }
-    }
-    if (!pushGa) {
-        isiCart.push(tambah)
+        if (pushGa) {
+            isiCart.push(tambah)
+        }
     }
     tampilCart();
+    tampilData();
 }
 
 function funPayment() {
     var output = "", cartList = "";
     var subTotal = 0, ppn = 0;
     for (var i = 0; i < isiCart.length; i++) {
-        subTotal += parseInt(isiCart[i].price * isiCart[i].qty);
-        ppn += parseInt((isiCart[i].price * isiCart[i].qty) / 100);
-        cartList += `${isiCart[i].id} | ${isiCart[i].category} | ${isiCart[i].nama} | ${isiCart[i].price} X ${isiCart[i].qty} = Rp ${(isiCart[i].price * isiCart[i].qty)}<br><br>`
+        subTotal += parseInt(isiCart[i].price * isiCart[i].stock);
+        ppn += parseInt((isiCart[i].price * isiCart[i].stock) / 100);
+        cartList += `${isiCart[i].id} | ${isiCart[i].category} | ${isiCart[i].nama} | ${isiCart[i].price} X ${isiCart[i].stock} = Rp ${(isiCart[i].price * isiCart[i].stock)}<br><br>`
     }
     var total = subTotal + ppn;
     output = `${cartList}<h3>Sub total ${subTotal}<br>Ppn ${ppn}<br>Total ${total}</h3>`
@@ -228,7 +246,7 @@ function tampilCart(num) {
                 <td>${val.category}</td>
                 <td>${val.nama}</td>
                 <td>${val.price}</td>
-                <td>${val.qty}</td>
+                <td>${val.stock}</td>
                 <td><input type="button" value="Yakin ?" onclick="funDelCartConfirm(${val.id})"></td>
                 <td><input type="button" value="Cancel" onclick="tampilCart()"></td>
                 </tr>`
@@ -240,7 +258,7 @@ function tampilCart(num) {
             <td>${val.category}</td>
             <td>${val.nama}</td>
             <td>${val.price}</td>
-            <td>${val.qty}</td>
+            <td>${val.stock}</td>
             <td><input type="button" value="Delete" onclick="tampilCart(${val.id})"></td>
             </tr>`
         )
