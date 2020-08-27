@@ -1,0 +1,56 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+}
+
+:root {
+    --warnafont: #233164;
+    --secondaryfont: #464f67;
+}
+
+div {
+    border: 1px solid orange;
+}
+
+body {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+/* style for header */
+.text-primary {
+    color: var(--warnafont);
+}
+
+.icon {
+    font-weight: 800;
+    font-size: 2em;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.menukanan {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.menukanan > .menuisi {
+    text-transform: capitalize;
+    color: var(--secondaryfont);
+    padding-top: 8px;
+}
+
+.mt-6 {
+    margin-top: 2%;
+}
+
+.width-40 {
+    width: 40%;
+}
+/* end header */
