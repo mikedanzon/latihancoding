@@ -5,13 +5,14 @@
 }
 
 :root {
-    --warnafont: #233164;
+    --warnafont: rgb(29,9,121);
     --secondaryfont: #464f67;
+    --gradien1: linear-gradient(90deg, rgba(29,9,121,0.8239670868347339) 27%, rgba(115,37,240,0.8267682072829132) 66%);
 }
 
-div {
+/* div {
     border: 1px solid orange;
-}
+} */
 
 body {
     padding-left: 5%;
@@ -20,6 +21,10 @@ body {
 /* style for header */
 .text-primary {
     color: var(--warnafont);
+}
+
+.text-primary:hover {
+    cursor: pointer;
 }
 
 .icon {
@@ -46,6 +51,10 @@ body {
     padding-top: 8px;
 }
 
+.menuisi:hover {
+    cursor: pointer;
+}
+
 .mt-6 {
     margin-top: 2%;
 }
@@ -54,3 +63,96 @@ body {
     width: 40%;
 }
 /* end header */
+/* jumbotron1 start */
+.jumbotron1 {
+    display: flex;
+}
+
+.jumbotron1 .content {
+    width: 50%;
+}
+
+.p-6 {
+    padding: 7% 5% 10% 4%;
+}
+
+.platform {
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--secondaryfont);
+    font-weight: bold;
+}
+
+.platform2 {
+    padding-right: 10%;
+    font-weight: 800;
+    font-size: 40px;
+    padding-top: 25px;
+}
+
+.platform3 {
+    padding-right: 35%;
+    padding-top: 35px;
+    font-weight: lighter;
+}
+
+.platform4 {
+    background: var(--gradien1);
+    border: 1px solid transparent;
+    width: 112px;
+    height: 20px;
+    margin-top: 45px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 15px 32px;
+    border-radius: 30px;
+}
+
+.platform4:hover {
+    cursor: pointer;
+    background: purple;
+    transition:width 800ms;
+    width: 130px;
+    text-align: center;
+}
+
+.foto {
+    margin-top: -30px;
+    margin-left: -100px;
+    width: 120%;
+    background-color: mediumorchid;
+    border-radius: 30px;
+    height: 600px;
+}
+
+.warnaquella {
+    background: var(--gradien1);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+/* end jumbotron1 */
+/* for mobile user */
+@media only screen and (max-width:576px) {
+    .jumbotron1{
+        flex-direction: column-reverse;
+    }
+    .jumbotron1 .content {
+        width: 100%;
+    }
+    .foto {
+        margin-top: 20px;
+        margin-left: 0px;
+        width: 100%;
+        background-color: mediumorchid;
+        border-radius: 30px;
+        height: 200px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .width-40 {
+        width: 100%;
+    }
+}
+/* end mobile user */

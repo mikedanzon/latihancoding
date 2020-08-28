@@ -1,0 +1,50 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: rgba(211, 211, 211, 0.747);
+}
+/* navbar kiri start */
+.navkiri {
+    background-color: white;
+    height: 100vh;
+    width: 18%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.btn .btnplus {
+    color: rgb(65, 65, 247);
+}
+
+.btn {
+    color: rgba(128, 128, 128, 0.699);
+}
+
+.isimenu {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: rgba(128, 128, 128, 0.699);
+}
+
+.menu .isimenu:hover {
+    color: rgba(60, 60, 221, 0.432);
+    cursor: pointer;
+}
+
+.personaltop {
+    color: rgba(128, 128, 128, 0.699);
+}
+
+.isipersonal {
+    color: rgba(128, 128, 128, 0.699);
+}
+
+.isipersonal:hover {
+    cursor: pointer;
+}
+/* end navbar kiri */
