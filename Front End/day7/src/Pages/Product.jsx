@@ -1,11 +1,14 @@
 import React,{ useEffect, useState } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bebasTambah, bebasKurang } from '../redux/actions'
 
 const Product=(props)=>{
   const [provinsi,setProvinsi] = useState([])
   const [kabupaten,setKabupaten] = useState([])
   const [kecamatan,setKecamatan] = useState([])
   const [kelurahan,setKelurahan] = useState([])
+  const [angka,setAngka] = useState(1)
   // const [dataawal,setDataAwal] = useState({prov:'0',kab:'0',kec:'0',kel:'0'})
   
   useEffect(()=>{
@@ -77,26 +80,50 @@ const Product=(props)=>{
     })
   }
 
+  const tambahBebas=()=>{
+    props.bebasTambah(angka)
+  }
+
+  const kurangBebas=()=>{
+    props.bebasKurang()
+  }
+
   return (
     <div>
-      <select defaultValue='0' onChange={onChangeProv}>
-        <option value="0" hidden>Pilih Provinsi</option>
-        {renderProvinsi()}
-      </select>
-      <select defaultValue='0' onChange={onChangeKab}>
-        <option value="0" hidden>Pilih Kabupaten</option>
-        {renderKabupaten()}
-      </select>
-      <select defaultValue='0' onChange={onChangeKec}>
-        <option value="0" hidden>Pilih Kecamatan</option>
-        {renderKecamatan()}
-      </select>
-      <select defaultValue='0'>
-        <option value="0" hidden>Pilih Kelurahan</option>
-        {renderKelurahan()}
-      </select>
+      <div className="wilayah">
+        <select defaultValue='0' onChange={onChangeProv}>
+          <option value="0" hidden>Pilih Provinsi</option>
+          {renderProvinsi()}
+        </select>
+        <select defaultValue='0' onChange={onChangeKab}>
+          <option value="0" hidden>Pilih Kabupaten</option>
+          {renderKabupaten()}
+        </select>
+        <select defaultValue='0' onChange={onChangeKec}>
+          <option value="0" hidden>Pilih Kecamatan</option>
+          {renderKecamatan()}
+        </select>
+        <select defaultValue='0'>
+          <option value="0" hidden>Pilih Kelurahan</option>
+          {renderKelurahan()}
+        </select>
+      </div>
+      <div className="mt-3">
+        <h1>
+          {props.bebas}
+        </h1>
+        <input type="number" value={angka} onChange={(e)=>setAngka(parseInt(e.target.value))}/>
+        <button className="btn btn-success" onClick={tambahBebas}> + </button>
+        <button className="btn btn-danger" onClick={kurangBebas}> - </button>
+      </div>
     </div>
   )
 }
 
-export default Product;
+const MapstatetoProps=(state)=>{
+  return {
+    bebas:state.angka
+  }
+}
+
+export default connect(MapstatetoProps,{bebasTambah,bebasKurang}) (Product);

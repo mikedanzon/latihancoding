@@ -3,37 +3,16 @@ import {
     Collapse,
     Navbar,
     NavbarToggler,
-    //NavbarBrand,
     Nav,
     NavItem,
-    //NavLink,
     NavbarText
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
-//var didupdateCheck = 0;
 
 const Header = (props) => {
 const [isOpen, setIsOpen] = useState(false); // [isi data, function untuk ubah isi data]
 
 const toggle = () => setIsOpen(!isOpen);
-
-// const [nama, setNama] = useState('max');
-// useEffect(()=>{
-//     console.log('didmount');
-// },[]) // didmount
-// useEffect(()=>{
-//     if(didupdateCheck) {
-//         console.log('didupdate');
-//     } else {
-//         didupdateCheck++;
-//     }
-// },[nama]) // didupdate (kalo mau didupdate ke semua , apus []nya , jadi } aja tanpa array)
-// useEffect(()=>{
-//     return ()=>{
-//         console.log('willumount')
-//     }
-// }) // willunmount
 
 return (
     <div>
@@ -53,7 +32,7 @@ return (
             </NavItem>
             {/* <button onClick={()=>setNama('michael')}>{nama}</button> */}
         </Nav>
-        <NavbarText>Michael Max</NavbarText>
+        <NavbarText>Parkir<br/>0 Jam<br/>Total Rp 0</NavbarText>
         </Collapse>
     </Navbar>
     </div>

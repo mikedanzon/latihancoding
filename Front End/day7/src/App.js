@@ -2,17 +2,17 @@ import React,{Component} from 'react';
 import './App.css';
 import Home from './Pages/Home';
 import Header from './components/header';
+import Header2 from './components/header2';
 import Topic from './Pages/Topic';
 import Product from './Pages/Product';
 import Notfound from './Pages/Notfound';
+import Parkir from './Pages/Parkir';
 import {
   BrowserRouter,
   Switch,
   Route
 } from 'react-router-dom';
 import axios from 'axios';
-
-//7Kp6jLRga59j1QPemDlO8BhLeaw3keljQ5cYkKqbcwIsZwU9Ty
 
 class App extends Component {
   state={
@@ -45,6 +45,10 @@ class App extends Component {
               <Route exact path="/topic">
                 <Header/>
                 <Topic/>
+              </Route>
+              <Route exact path="/parkir">
+                <Header2/>
+                <Parkir/>
               </Route>
               <Route path="*">
                 <Notfound/>
