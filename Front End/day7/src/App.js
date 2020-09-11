@@ -10,30 +10,54 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
+import axios from 'axios';
+
+//7Kp6jLRga59j1QPemDlO8BhLeaw3keljQ5cYkKqbcwIsZwU9Ty
 
 class App extends Component {
+  state={
+    token:''
+  }
+
+  componentDidMount(){
+    axios.get('https://x.rajaapi.com/poe')
+    .then((res)=>{
+      this.setState({token:res.data.token})
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
   render(){
-    return(
-      <BrowserRouter>
-        <div>
-          <Header/>
-          <Switch>
-            <Route exact path="/">
-              <Home/>
-            </Route>
-            <Route exact path="/product">
-              <Product/>
-            </Route>
-            <Route exact path="/topic">
-              <Topic/>
-            </Route>
-            <Route path="*">
-              <Notfound/>
-            </Route>
-          </Switch>
-        </div>
-      </BrowserRouter>
-    )
+    if(this.state.token) {
+      return(
+        <BrowserRouter>
+          <div>
+            <Switch>
+              <Route exact path="/">
+                <Header/>
+                <Home/>
+              </Route>
+              <Route exact path="/product">
+                <Header/>
+                <Product datatoken={this.state.token}/>
+              </Route>
+              <Route exact path="/topic">
+                <Header/>
+                <Topic/>
+              </Route>
+              <Route path="*">
+                <Notfound/>
+              </Route>
+            </Switch>
+          </div>
+        </BrowserRouter>
+      )
+    } else {
+      return(
+        <div>Loading...</div>
+      )
+    }
   }
 }
  

@@ -1,6 +1,9 @@
 import React,{Component, createRef} from 'react';
 import Swal from 'sweetalert2';
-import { Table } from 'reactstrap';
+//import withReactContent from 'sweetalert2-react-content';
+import { Table, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
+//const MySwal = withReactContent(Swal);
 
 var data = [
   {nama:'budi',usia:5,alamat:'jl. sukahari'},
@@ -10,6 +13,7 @@ var data = [
 
 class Home extends Component {
   state = { 
+    modal:false,
     angka:0,
     datamurid:[],
     nama:'',
@@ -41,8 +45,9 @@ class Home extends Component {
   }
 
   onDeleteHandler=(index)=>{
+    const {nama} = this.state.datamurid[index]
     Swal.fire({
-      title: 'Are you sure?',
+      title: `Are you sure to remove ${nama} ?`,
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
@@ -53,7 +58,7 @@ class Home extends Component {
       if (result.isConfirmed) {
         var datamurid = this.state.datamurid
         datamurid.splice(index,1)
-        this.setState({datamurid,indexdelete:-1})
+        this.setState({datamurid})
         Swal.fire(
           'Deleted!',
           'Your data has been deleted.',
@@ -62,11 +67,19 @@ class Home extends Component {
       }
     })
   }
+
+  onChangeHandler=(e,namaproperty)=>{
+    this.setState({editform:{...this.state.editform,[namaproperty]:e.target.value}})
+  }
   
   onEditClick=(index)=>{
-    this.setState({indexedit:index})
+    var {nama,usia,alamat} = this.state.datamurid[index]
+    var editformaja = this.state.editform
+    editformaja = {...editformaja,editnama:nama,editusia:usia,editalamat:alamat};
+    this.setState({editform:editformaja,indexedit:index,modal:!this.state.modal})
   }
-  onEditConfirm=(index)=>{
+  onEditConfirm=()=>{
+    var index = this.state.indexedit
     var {editnamaref,editusiaref,editalamatref} = this.state.editform
     var editnama = editnamaref.current.value
     var editusia = editusiaref.current.value
@@ -75,23 +88,11 @@ class Home extends Component {
     var datamuridedit = this.state.datamurid[index]
     datamuridedit = {...datamuridedit,nama:editnama,usia:editusia,alamat:editalamat}
     datamurid.splice(index,1,datamuridedit)
-    this.setState({datamurid,indexedit:-1})
+    this.setState({datamurid,indexedit:-1,modal:!this.state.modal})
   }
 
   renderDataMurid=()=>{
     return this.state.datamurid.map((val,index)=>{
-      if (index === this.state.indexedit) {
-        return (
-          <tr key={index}>
-            <td>{index+1}</td>
-            <td><input ref={this.state.editform.editnamaref} defaultValue={val.nama}/></td>
-            <td><input ref={this.state.editform.editusiaref} defaultValue={val.usia}/></td>
-            <td><input ref={this.state.editform.editalamatref} defaultValue={val.alamat}/></td>
-            <td><button className='btn btn-success mr-2' onClick={()=>this.onEditConfirm(index)}>Save</button>
-            <button className='btn btn-success' onClick={()=>this.setState({indexedit:-1})}>Cancel</button></td>
-          </tr>
-        )
-      }
       return (
         <tr key={index}>
           <td>{index+1}</td>
@@ -118,8 +119,13 @@ class Home extends Component {
     this.alamatref.current.value='';
   }
 
+  toggle = () => this.setState({modal:!this.state.modal});
+
   render() { 
     // console.log("masuk render")
+    const {toggle,state} = this;
+    const {modal,editform} = state;
+    const {editnama,editusia,editalamat} = editform;
     if(this.state.datamurid.length !== 0) {
       return ( 
         // <div className="App">
@@ -128,7 +134,20 @@ class Home extends Component {
         //   <button onClick={this.onclickaja}>Klik</button>
         //   <Tulisan/>
         // </div>
-        <div style={{height:'80vh'}} className="TableMurid d-flex justify-content-center flex-column align-items-center mt-3">
+        <div style={{height:'100vh'}} className="TableMurid d-flex justify-content-center flex-column align-items-center mt-3">
+          {/* <button className='btn btn-primary' onClick={toggle}>buka modal</button> */}
+          <Modal isOpen={modal} toggle={toggle}>
+            <ModalHeader toggle={toggle}>Edit Form {editnama}</ModalHeader>
+            <ModalBody>
+              <div><input className='form-control' ref={this.state.editform.editnamaref} onChange={(e)=>this.onChangeHandler(e,'editnama')} defaultValue={editnama}/></div>
+              <div><input className='form-control' ref={this.state.editform.editusiaref} onChange={(e)=>this.onChangeHandler(e,'editusia')} defaultValue={editusia}/></div>
+              <div><input className='form-control' ref={this.state.editform.editalamatref} onChange={(e)=>this.onChangeHandler(e,'editalamat')} defaultValue={editalamat}/></div>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.onEditConfirm}>Save</Button>{' '}
+              <Button color="secondary" onClick={toggle}>Cancel</Button>
+            </ModalFooter>
+          </Modal>
           <h1>Murid TK Sukamaju</h1>
           <div>
             <form onSubmit={this.onTambahClick}>
