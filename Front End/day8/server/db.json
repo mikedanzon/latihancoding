@@ -1,21 +1,46 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "author": "max",
+      "title": "belajar react",
+      "id": 1
     },
     {
-      "title": "belajar hari ini",
-      "author": "max",
+      "author": "hana",
+      "title": "belajar bucin",
       "id": 2
+    },
+    {
+      "author": "robin",
+      "title": "belajar wibu",
+      "id": 3
     }
   ],
   "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+    { 
+      "id": 1, 
+      "body": "some comment", 
+      "postId": 1 
+    },
+    { 
+      "id": 2, 
+      "body": "some comment 2", 
+      "postId": 1 
+    },
+    { 
+      "id": 3, 
+      "body": "some comment 3", 
+      "postId": 2 
+    },
+    { 
+      "id": 4, 
+      "body": "some comment 4", 
+      "postId": 2 
+    },
+    { 
+      "id": 5, 
+      "body": "some comment 5", 
+      "postId": 3 
     }
   ],
   "profile": {
