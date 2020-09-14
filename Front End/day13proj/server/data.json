@@ -1,0 +1,69 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "max",
+      "password": "test",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "username": "hana",
+      "password": "bucin",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "username": "maxie",
+      "password": "test",
+      "role": "user"
+    }
+  ],
+  "product": [
+    {
+      "tripname": "Trip to Bali",
+      "photo": "https://krishnabalitours.com/dummy/bali-tour-4D-3N.jpg",
+      "startdate": "2020-09-16",
+      "enddate": "2020-09-20",
+      "price": "600000",
+      "description": "asik jalan jalan ke bali coyyy kapan lagi kan",
+      "id": 1
+    },
+    {
+      "tripname": "Trip to Japan",
+      "photo": "https://www.detourista.com/wp/wp-content/uploads/Unorganized/Japan-Featured-Image-3x2-2.jpg?lossy=80&ssl=1",
+      "startdate": "2020-10-01",
+      "enddate": "2020-10-08",
+      "price": "5000000",
+      "description": "anjay gw ke jepang coy mau ikut ga lo semua ? hehehehe",
+      "id": 2
+    },
+    {
+      "tripname": "Trip to angel island",
+      "photo": "https://cruisingindonesia.com/media/k2/items/cache/c889234799e865bbe90cee71f6cd2e53_XL.jpg",
+      "startdate": "2020-09-23",
+      "enddate": "2020-09-25",
+      "price": "100000000",
+      "description": "gila lo bisa ke pulai malaikat",
+      "id": 3
+    },
+    {
+      "tripname": "Trip to hell",
+      "photo": "https://billtammeus.typepad.com/.a/6a00d834515f9b69e20240a4af97e8200d-800wi",
+      "startdate": "2020-09-30",
+      "enddate": "2020-10-29",
+      "price": "666666",
+      "description": "kabur coy",
+      "id": 4
+    },
+    {
+      "tripname": "Trip to Europe",
+      "photo": "https://img.theculturetrip.com/450x/wp-content/uploads/2017/09/shutterstock_496638541.jpg",
+      "startdate": "2021-02-10",
+      "enddate": "2021-02-17",
+      "price": "25000000",
+      "description": "anjay jalan2 ke europe impian idaman",
+      "id": 5
+    }
+  ]
+}
