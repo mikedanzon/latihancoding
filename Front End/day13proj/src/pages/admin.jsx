@@ -31,7 +31,7 @@ const Toast = Swal.mixin({
 export default function StickyHeadTable() {
     const [modal, setModal] = useState(false)
     const [modaledit, setModalEdit] = useState(false)
-    const [product, setProduct] = useState([])
+    const [products, setProducts] = useState([])
     const [indexedit, setIndexEdit] = useState(0)
     const [addform, setAddForm] = useState({
         tripname:useRef(),
@@ -51,9 +51,9 @@ export default function StickyHeadTable() {
     })
 
     useEffect(()=>{
-        axios.get(`${URL_LOCALHOST}/product`)
+        axios.get(`${URL_LOCALHOST}/products`)
         .then((res)=>{
-            setProduct(res.data)
+            setProducts(res.data)
         }).catch((err)=>{
             console.log(err)
         })
@@ -94,11 +94,11 @@ export default function StickyHeadTable() {
         if (checkstartdate > checkenddate || checkstartdate <= new Date().getTime()) {
             console.log("error")
         } else {
-            axios.post(`${URL_LOCALHOST}/product`,obj)
+            axios.post(`${URL_LOCALHOST}/products`,obj)
             .then(()=>{
-                axios.get(`${URL_LOCALHOST}/product`)
+                axios.get(`${URL_LOCALHOST}/products`)
                 .then((res)=>{
-                    setProduct(res.data)
+                    setProducts(res.data)
                     setAddForm({...addform,price:''})
                     setModal(false)
                     Toast.fire({
@@ -147,11 +147,11 @@ export default function StickyHeadTable() {
             description:editform.description.current.value
         }
         if (!isNaN(objedit.price)) {
-            axios.put(`${URL_LOCALHOST}/product/${id}`,objedit)
+            axios.put(`${URL_LOCALHOST}/products/${id}`,objedit)
             .then(()=>{
-                axios.get(`${URL_LOCALHOST}/product`)
+                axios.get(`${URL_LOCALHOST}/products`)
                 .then((res)=>{
-                    setProduct(res.data)
+                    setProducts(res.data)
                     setModalEdit(false)
                     Toast.fire({
                         icon: 'success',
@@ -172,7 +172,7 @@ export default function StickyHeadTable() {
     }
 
     const renderData=()=>{
-        return product.map((val,index)=>{
+        return products.map((val,index)=>{
             return (
                 <TableRow key={val.id}>
                     <TableCell>{index+1}</TableCell>
@@ -216,21 +216,21 @@ export default function StickyHeadTable() {
             </ModalFooter>
         </Modal>
         {
-            product.length ?
+            products.length ?
             <Modal isOpen={modaledit} toggle={toggleedit}>
-            <ModalHeader toggle={toggleedit}>Edit Data {product.length?product[indexedit].tripname:''}</ModalHeader>
+            <ModalHeader toggle={toggleedit}>Edit Data {products.length?products[indexedit].tripname:''}</ModalHeader>
                 <ModalBody>
-                    <input type="text" defaultValue={product[indexedit].tripname} ref={editform.tripname} placeholder="Trip Name" className="form-control mb-1"/>
-                    <input type="text" defaultValue={product[indexedit].photo} ref={editform.photo} placeholder="Photo url" className="form-control mb-1"/>
+                    <input type="text" defaultValue={products[indexedit].tripname} ref={editform.tripname} placeholder="Trip Name" className="form-control mb-1"/>
+                    <input type="text" defaultValue={products[indexedit].photo} ref={editform.photo} placeholder="Photo url" className="form-control mb-1"/>
                     <label className="ml-1">Starting Date:</label>
-                    <input type="date" defaultValue={product[indexedit].startdate} ref={editform.startdate} placeholder="Start Date" className="form-control mb-1"/>
+                    <input type="date" defaultValue={products[indexedit].startdate} ref={editform.startdate} placeholder="Start Date" className="form-control mb-1"/>
                     <label className="ml-1">Ending Date:</label>
-                    <input type="date" defaultValue={product[indexedit].enddate} ref={editform.enddate} placeholder="End Date" className="form-control mb-1"/>
-                    <input type="text" ref={editform.price} placeholder="Rp . . ." defaultValue={product[indexedit].price} className="form-control mb-1"/>
-                    <textarea className="form-control" defaultValue={product[indexedit].description} ref={editform.description} placeholder="Description" cols="30" rows="5"></textarea>
+                    <input type="date" defaultValue={products[indexedit].enddate} ref={editform.enddate} placeholder="End Date" className="form-control mb-1"/>
+                    <input type="text" ref={editform.price} placeholder="Rp . . ." defaultValue={products[indexedit].price} className="form-control mb-1"/>
+                    <textarea className="form-control" defaultValue={products[indexedit].description} ref={editform.description} placeholder="Description" cols="30" rows="5"></textarea>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={()=>onSaveEditClick(product[indexedit].id)}>Save</Button>{' '}
+                    <Button color="primary" onClick={()=>onSaveEditClick(products[indexedit].id)}>Save</Button>{' '}
                     <Button color="secondary" onClick={toggleedit}>Cancel</Button>
                 </ModalFooter>
             </Modal>

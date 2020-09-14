@@ -68,16 +68,17 @@ const Login=(props)=>{
         })
     }
 
-    if (props.Auth.isLogin) {
+    if (props.isLogin) {
         return <Redirect to='/'/>
     }
+
     return (
         <div className="row m-0 p-0">
             <div className="col-md-6 m-0 p-0" style={{height:"100vh"}}>
-                <img width="100%" height="100%" src={Photo} alt="a picture"/>
+                <img width="100%" height="100%" style={{objectFit:"cover"}} src={Photo} alt="background image"/>
             </div>
             <div className="col-md-6 m-0 p-0 d-flex justify-content-center align-items-center" style={{background:'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>
-                <div className="login-box d-flex px-4">
+                <div className="login-box d-flex px-4" style={{height:"40%"}}>
                     <h1 className="align-self-center">Login</h1>
                     <div className="mt-3">
                         <TextField className={classes.root} inputRef={loginform.username} id="outlined-basic" label="Username" fullWidth="true" variant="outlined" size="small" />
@@ -96,9 +97,9 @@ const Login=(props)=>{
     )
 }
 
-const Mapstatetoprops=(state)=>{
+const Mapstatetoprops=({Auth})=>{
     return {
-        Auth:state.Auth
+        ...Auth
     }
 }
 

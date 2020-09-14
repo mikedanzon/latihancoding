@@ -19,14 +19,14 @@
       "role": "user"
     }
   ],
-  "product": [
+  "products": [
     {
       "tripname": "Trip to Bali",
       "photo": "https://krishnabalitours.com/dummy/bali-tour-4D-3N.jpg",
       "startdate": "2020-09-16",
       "enddate": "2020-09-20",
       "price": "600000",
-      "description": "asik jalan jalan ke bali coyyy kapan lagi kan",
+      "description": "asik jalan jalan ke bali coyyy kapan lagi kann",
       "id": 1
     },
     {
@@ -65,5 +65,8 @@
       "description": "anjay jalan2 ke europe impian idaman",
       "id": 5
     }
-  ]
+  ],
+  "carts": [],
+  "transactions": [],
+  "transactionsdetails": []
 }
