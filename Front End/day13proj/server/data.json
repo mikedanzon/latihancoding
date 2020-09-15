@@ -66,7 +66,24 @@
       "id": 5
     }
   ],
-  "carts": [],
-  "transactions": [],
-  "transactionsdetails": []
+  "carts": [
+    {
+      "userId": 3,
+      "productId": 1,
+      "qty": 2,
+      "id": 1
+    },
+    {
+      "userId": 3,
+      "productId": 3,
+      "qty": 5,
+      "id": 2
+    }
+  ],
+  "transactions": [
+
+  ],
+  "transactionsdetails": [
+
+  ]
 }

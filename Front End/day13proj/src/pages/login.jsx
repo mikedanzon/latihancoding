@@ -37,6 +37,7 @@ const Login=(props)=>{
     const classes = useStyles();
     const [logindata, setLoginData] = useState([])
     const [logincheck, setLoginCheck] = useState([])
+    const [isloading, setIsLoading] = useState(false)
     const [loginform, setLoginForm] = useState({
         username: useRef(),
         password: useRef()
@@ -52,6 +53,8 @@ const Login=(props)=>{
     },[])
 
     const onLoginClick=()=>{
+        setIsLoading(true) // ga langsung update ada delay cari google
+        console.log(isloading)
         var username = loginform.username.current.value;
         var password = loginform.password.current.value;
         axios.get(`${URL_LOCALHOST}/users?username=${username}&password=${password}`)
@@ -60,7 +63,9 @@ const Login=(props)=>{
             if (res.data.length) {
                 localStorage.setItem('id',res.data[0].id)
                 props.LoginFunc(res.data[0])
+                setIsLoading(false)
             } else {
+                setIsLoading(false)
                 console.log('user salah id atau password') // nanti buat handle error cek password kalo id nya bener
             }
         }).catch((err)=>{
@@ -87,9 +92,16 @@ const Login=(props)=>{
                         <TextField className={classes.root} inputRef={loginform.password} type="password" id="outlined-basic" label="Password" fullWidth="true" variant="outlined" size="small" />
                     </div>
                     <div className="mt-4 align-self-center">
-                        <button onClick={onLoginClick} className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
-                            Login
-                        </button>
+                        {
+                            isloading ?
+                            <button disabled className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
+                                Login
+                            </button>
+                            :
+                            <button onClick={onLoginClick} className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
+                                Login
+                            </button>
+                        }
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ import ManageAdmin from './pages/admin';
 import Login from './pages/login';
 import Product from './pages/listprod';
 import Detailprod from './pages/detailprod';
+import Cart from './pages/cart';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import { connect } from 'react-redux';
@@ -57,6 +58,7 @@ function App(props) {
         <Route exact path='/login' component={Login}/>
         <Route exact path='/products' component={Product}/>
         <Route path='/products/:id' component={Detailprod}/>
+        <Route path='/cart' component={Cart}/>
         {pathProtectedAdmin()}
         <Route path='*' component={Notfound} />
       </Switch>

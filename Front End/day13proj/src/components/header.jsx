@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { FaUserAstronaut } from 'react-icons/fa';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +29,15 @@ const useStyles = makeStyles((theme) => ({
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   },
 }));
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 13,
+    border: `1px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
 
 function ButtonAppBar(props) {
   const classes = useStyles();
@@ -56,6 +67,15 @@ function ButtonAppBar(props) {
               props.role === 'admin' ?
               <Link to='/manageAdmin' style={{textDecoration:'none', color:'white'}}>
                   <Button color="inherit">Admin</Button>
+              </Link>
+              :
+              props.role === 'user' ?
+              <Link to='/cart' style={{textDecoration:'none', color:'white'}}>
+                {/* <IconButton className="mr-3" aria-label="cart"> */}
+                  <StyledBadge className="mr-3" badgeContent={4} color="secondary">
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                {/* </IconButton> */}
               </Link>
               :
               null

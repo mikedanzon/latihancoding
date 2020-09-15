@@ -25,8 +25,16 @@ function Detailprod(props) {
     },[])
 
     const onCartClick=()=>{
-        if (props.isLogin) {
-
+        if (props.role === 'admin') {
+            Swal.fire('Admin cannot add to cart')
+        } else if (props.role === 'user') {
+            Axios.post(`${URL_LOCALHOST}/carts`,{
+                userId:props.id,
+                productId: products.id,
+                qty: parseInt(qty.current.value)
+            }).then(()=>{
+                alert("berhasil masuk cart")
+            })
         } else {
             Swal.fire('Please login before using the cart')
             .then((result)=>{
