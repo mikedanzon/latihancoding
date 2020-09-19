@@ -7,6 +7,7 @@ import Axios from 'axios';
 import { URL_LOCALHOST } from '../helpers/url';
 import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
+import Loading from '../components/loading';
 
 function Detailprod(props) {
     const [loading, setLoading] = useState(true)
@@ -50,7 +51,7 @@ function Detailprod(props) {
     if (loading) {
         return (
             <div>
-                Loading . . .
+                <Loading/>
             </div>
         )
     }

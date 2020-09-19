@@ -12,6 +12,7 @@ import { LoginFunc } from './redux/actions';
 import axios from 'axios';
 import { URL_LOCALHOST } from './helpers/url';
 import Notfound from './pages/notfound';
+import Loading from './components/loading';
 
 function App(props) {
   const [loading, setLoading] = useState(true)
@@ -46,7 +47,7 @@ function App(props) {
   if (loading) {
     return (
       <div>
-        Loading . . .
+        <Loading/>
       </div>
     )
   }

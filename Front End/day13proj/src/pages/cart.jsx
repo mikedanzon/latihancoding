@@ -18,6 +18,8 @@ import { TableFooter } from '@material-ui/core';
 
 const Cart=(props)=>{
     const [cart, setCart] = useState([])
+    const [isopen, setIsOpen] = useState(false)
+    const [pilihan, setPilihan] = useState(0)
 
     useEffect(()=>{
         Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
@@ -64,43 +66,44 @@ const Cart=(props)=>{
     // transactionsdetails ada id , transactions id , product , price , qty
 
     const onCheckoutClick=()=>{
-        Axios.post(`${URL_LOCALHOST}/transactions`,{
-            status: 'WaitingPayment',
-            checkoutdate: new Date().getTime(),
-            userId: props.id,
-            paymentdate: '',
-        }).then((res)=>{
-            var arr = [];
-            cart.forEach((val)=>{
-                arr.push(Axios.post(`${URL_LOCALHOST}/transactionsdetails`,{
-                    transactionId: res.data.id,
-                    productId: val.productId,
-                    price: parseInt(val.product.price),
-                    qty: val.qty
-                }))
-            })
-            Axios.all(arr).then(()=>{
-                var deletearr = []
-                cart.forEach((val)=>{
-                    deletearr.push(Axios.delete(`${URL_LOCALHOST}/carts/${val.id}`))
-                })
-                Axios.all(deletearr)
-                .then(()=>{
-                    Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
-                    .then((res1)=>{
-                        setCart(res1.data)
-                    }).catch((err)=>{
-                        console.log(err)
-                    })
-                }).catch((err)=>{
-                    console.log(err)
-                })
-            }).catch((err)=>{
-                console.log(err)
-            })
-        }).catch((err)=>{
-            console.log(err)
-        })
+
+        // Axios.post(`${URL_LOCALHOST}/transactions`,{
+        //     status: 'WaitingPayment',
+        //     checkoutdate: new Date().getTime(),
+        //     userId: props.id,
+        //     paymentdate: '',
+        // }).then((res)=>{
+        //     var arr = [];
+        //     cart.forEach((val)=>{
+        //         arr.push(Axios.post(`${URL_LOCALHOST}/transactionsdetails`,{
+        //             transactionId: res.data.id,
+        //             productId: val.productId,
+        //             price: parseInt(val.product.price),
+        //             qty: val.qty
+        //         }))
+        //     })
+        //     Axios.all(arr).then(()=>{
+        //         var deletearr = []
+        //         cart.forEach((val)=>{
+        //             deletearr.push(Axios.delete(`${URL_LOCALHOST}/carts/${val.id}`))
+        //         })
+        //         Axios.all(deletearr)
+        //         .then(()=>{
+        //             Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
+        //             .then((res1)=>{
+        //                 setCart(res1.data)
+        //             }).catch((err)=>{
+        //                 console.log(err)
+        //             })
+        //         }).catch((err)=>{
+        //             console.log(err)
+        //         })
+        //     }).catch((err)=>{
+        //         console.log(err)
+        //     })
+        // }).catch((err)=>{
+        //     console.log(err)
+        // })
     }
 
     if (props.role !== 'user') {
@@ -109,6 +112,28 @@ const Cart=(props)=>{
 
     return (
         <>
+            <Modal isOpen={isOpen} toggle={setIsOpen(false)}> // toggle blm bener edit lagi
+                <ModalHeader>Payment Checkout</ModalHeader>
+                <ModalBody>
+                    <select onChange={(e)=>setPilihan(e.target.value)} className="form-control" defaultValue={0}>
+                        <option value="0" hidden>Select Payment Type</option>
+                        <option value="1">Bank Transfer</option>
+                        <option value="2">Credit Card</option>
+                    </select>
+                    {
+                        pilihan === 2 ?
+                        <input className="form-control" placeholder="Credit Card Number"></input>
+                        :
+                        <input className="form-control" placeholder="Bank Transfer Proof"></input>
+                    }
+                    <div>
+                        Total Harga: {priceFormatter(renderTotalPrice())}
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+
+                </ModalFooter>
+            </Modal>
             <Header/>
             <div className="pt-3" style={{paddingLeft:"15%",paddingRight:"15%"}}>
                 <Paper style={{width:"100%"}}>
