@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import './css/cart.css';
 import Header from '../components/header';
 import { connect } from 'react-redux';
@@ -13,13 +13,19 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { priceFormatter } from '../helpers/idrcurrency'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TableFooter } from '@material-ui/core';
+import { Addtocart } from '../redux/actions/authactions';
 
 const Cart=(props)=>{
     const [cart, setCart] = useState([])
-    const [isopen, setIsOpen] = useState(false)
     const [pilihan, setPilihan] = useState(0)
+    const [pembayaran, setPembayaran] = useState({
+        transfer: useRef(),
+        creditc: useRef()
+    })
+    const [modal, setModal] = useState(false)
+    const toggle = () => setModal(!modal);
 
     useEffect(()=>{
         Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
@@ -62,48 +68,103 @@ const Cart=(props)=>{
         return total
     }
 
-    // transactions ada id , status , checkoutdate , userId , payment date
+    // transactions ada id , status , userId , payment date , metode , payment proof
     // transactionsdetails ada id , transactions id , product , price , qty
 
-    const onCheckoutClick=()=>{
+    const onPaymentCC=()=>{
+        Axios.post(`${URL_LOCALHOST}/transactions`,{
+            status: 'Success',
+            userId: props.id,
+            paymentdate: new Date().getTime(),
+            method:'creditcard',
+            paymentproof:pembayaran.creditc.current.value
+        }).then((res)=>{
+            var arr = [];
+            cart.forEach((val)=>{
+                arr.push(Axios.post(`${URL_LOCALHOST}/transactionsdetails`,{
+                    transactionId: res.data.id,
+                    productId: val.productId,
+                    price: parseInt(val.product.price),
+                    qty: val.qty
+                }))
+            })
+            Axios.all(arr).then(()=>{
+                var deletearr = []
+                cart.forEach((val)=>{
+                    deletearr.push(Axios.delete(`${URL_LOCALHOST}/carts/${val.id}`))
+                })
+                Axios.all(deletearr)
+                .then(()=>{
+                    Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
+                    .then((res1)=>{
+                        setCart(res1.data)
+                        toggle()
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
 
-        // Axios.post(`${URL_LOCALHOST}/transactions`,{
-        //     status: 'WaitingPayment',
-        //     checkoutdate: new Date().getTime(),
-        //     userId: props.id,
-        //     paymentdate: '',
-        // }).then((res)=>{
-        //     var arr = [];
-        //     cart.forEach((val)=>{
-        //         arr.push(Axios.post(`${URL_LOCALHOST}/transactionsdetails`,{
-        //             transactionId: res.data.id,
-        //             productId: val.productId,
-        //             price: parseInt(val.product.price),
-        //             qty: val.qty
-        //         }))
-        //     })
-        //     Axios.all(arr).then(()=>{
-        //         var deletearr = []
-        //         cart.forEach((val)=>{
-        //             deletearr.push(Axios.delete(`${URL_LOCALHOST}/carts/${val.id}`))
-        //         })
-        //         Axios.all(deletearr)
-        //         .then(()=>{
-        //             Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
-        //             .then((res1)=>{
-        //                 setCart(res1.data)
-        //             }).catch((err)=>{
-        //                 console.log(err)
-        //             })
-        //         }).catch((err)=>{
-        //             console.log(err)
-        //         })
-        //     }).catch((err)=>{
-        //         console.log(err)
-        //     })
-        // }).catch((err)=>{
-        //     console.log(err)
-        // })
+    const onPaymentBank=()=>{
+        Axios.post(`${URL_LOCALHOST}/transactions`,{
+            status: 'WaitingAdmin',
+            userId: props.id,
+            paymentdate: new Date().getTime(),
+            method:'banktransfer',
+            paymentproof:pembayaran.transfer.current.value
+        }).then((res)=>{
+            var arr = [];
+            cart.forEach((val)=>{
+                arr.push(Axios.post(`${URL_LOCALHOST}/transactionsdetails`,{
+                    transactionId: res.data.id,
+                    productId: val.productId,
+                    price: parseInt(val.product.price),
+                    qty: val.qty
+                }))
+            })
+            Axios.all(arr).then(()=>{
+                var deletearr = []
+                cart.forEach((val)=>{
+                    deletearr.push(Axios.delete(`${URL_LOCALHOST}/carts/${val.id}`))
+                })
+                Axios.all(deletearr)
+                .then(()=>{
+                    Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
+                    .then((res1)=>{
+                        setCart(res1.data)
+                        toggle()
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
+
+    const onPaymentClick=()=>{
+        if (pilihan === 1) {
+            props.Addtocart([])
+            onPaymentBank()
+        } else if (pilihan === 2) {
+            props.Addtocart([])
+            onPaymentCC()
+        } else {
+            alert("error , pilih dulu tipe pembayaran") // nanti ganti sweetalert
+        }
     }
 
     if (props.role !== 'user') {
@@ -112,26 +173,31 @@ const Cart=(props)=>{
 
     return (
         <>
-            <Modal isOpen={isOpen} toggle={setIsOpen(false)}> // toggle blm bener edit lagi
-                <ModalHeader>Payment Checkout</ModalHeader>
+            <Modal isOpen={modal} toggle={toggle}>
+                <ModalHeader toggle={toggle}>Payment Checkout</ModalHeader>
                 <ModalBody>
-                    <select onChange={(e)=>setPilihan(e.target.value)} className="form-control" defaultValue={0}>
+                    <select onChange={(e)=>setPilihan(parseInt(e.target.value))} className="form-control" defaultValue={0}>
                         <option value="0" hidden>Select Payment Type</option>
                         <option value="1">Bank Transfer</option>
                         <option value="2">Credit Card</option>
                     </select>
                     {
-                        pilihan === 2 ?
-                        <input className="form-control" placeholder="Credit Card Number"></input>
+                        pilihan === 1 ?
+                        <input className="form-control" ref={pembayaran.transfer} placeholder="Bank Transfer Proof"></input>
                         :
-                        <input className="form-control" placeholder="Bank Transfer Proof"></input>
+                        pilihan === 2 ?
+                        <input className="form-control" ref={pembayaran.creditc} placeholder="Credit Card Number"></input>
+                        :
+                        null
                     }
                     <div>
                         Total Harga: {priceFormatter(renderTotalPrice())}
                     </div>
                 </ModalBody>
                 <ModalFooter>
-
+                    <button className="btn button-add-data my-3" onClick={onPaymentClick}>
+                        Pay
+                    </button>
                 </ModalFooter>
             </Modal>
             <Header/>
@@ -160,7 +226,7 @@ const Cart=(props)=>{
                     </Table>
                 </TableContainer>
                 </Paper>
-                <button className="btn button-add-data my-3" onClick={onCheckoutClick}>
+                <button className="btn button-add-data my-3 float-right" onClick={toggle}>
                     Checkout
                 </button>
             </div>
@@ -174,4 +240,4 @@ const Mapstatetoprops=({Auth})=>{
     }
 }
 
-export default connect(Mapstatetoprops) (Cart);
+export default connect(Mapstatetoprops,{Addtocart}) (Cart);

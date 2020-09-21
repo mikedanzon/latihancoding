@@ -14,6 +14,9 @@ import { URL_LOCALHOST } from './helpers/url';
 import Notfound from './pages/notfound';
 import Loading from './components/loading';
 
+// buat page user : history , register (ga wajib)
+// buat page admin : confirm admin , 
+
 function App(props) {
   const [loading, setLoading] = useState(true)
 
@@ -22,11 +25,16 @@ function App(props) {
     if (id) {
       axios.get(`${URL_LOCALHOST}/users/${id}`)
       .then((res)=>{
-        props.LoginFunc(res.data)
+        axios.get(`${URL_LOCALHOST}/carts?userId=${res.data.id}&_expand=product`)
+        .then((res1)=>{
+            props.LoginFunc(res.data,res1.data)
+        }).catch((err)=>{
+            console.log(err)
+        }).finally(()=>{
+          setLoading(false)
+        })
       }).catch((err)=>{
         console.log(err)
-      }).finally(()=>{
-        setLoading(false)
       })
     } else {
       setLoading(false)

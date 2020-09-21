@@ -8,6 +8,7 @@ import { URL_LOCALHOST } from '../helpers/url';
 import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import Loading from '../components/loading';
+import { Addtocart } from '../redux/actions/authactions';
 
 function Detailprod(props) {
     const [loading, setLoading] = useState(true)
@@ -34,7 +35,17 @@ function Detailprod(props) {
                 productId: products.id,
                 qty: parseInt(qty.current.value)
             }).then(()=>{
-                alert("berhasil masuk cart")
+                Axios.get(`${URL_LOCALHOST}/carts`,{
+                    params:{
+                        userId:props.id,
+                        _expand:'product'
+                    }
+                }).then((res)=>{
+                    props.Addtocart(res.data)
+                    alert("berhasil masuk cart")
+                }).catch((err)=>{
+                    console.log(err)
+                })
             })
         } else {
             Swal.fire('Please login before using the cart')
@@ -94,4 +105,4 @@ const Mapstatetoprops=({Auth})=>{
     }
 }
 
-export default connect(Mapstatetoprops) (Detailprod);
+export default connect(Mapstatetoprops,{Addtocart}) (Detailprod);

@@ -8,6 +8,7 @@ import { URL_LOCALHOST } from '../helpers/url';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { LoginFunc } from '../redux/actions';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -53,8 +54,7 @@ const Login=(props)=>{
     },[])
 
     const onLoginClick=()=>{
-        setIsLoading(true) // ga langsung update ada delay cari google
-        console.log(isloading)
+        setIsLoading(true)
         var username = loginform.username.current.value;
         var password = loginform.password.current.value;
         axios.get(`${URL_LOCALHOST}/users?username=${username}&password=${password}`)
@@ -66,7 +66,11 @@ const Login=(props)=>{
                 setIsLoading(false)
             } else {
                 setIsLoading(false)
-                console.log('user salah id atau password') // nanti buat handle error cek password kalo id nya bener
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Your username or password is incorrect'
+                })
             }
         }).catch((err)=>{
             console.log(err)
@@ -74,7 +78,7 @@ const Login=(props)=>{
     }
 
     if (props.isLogin) {
-        return <Redirect to='/'/>
+        window.location = "//localhost:3000"
     }
 
     return (

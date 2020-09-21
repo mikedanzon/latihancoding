@@ -14,6 +14,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Badge from '@material-ui/core/Badge';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,11 +46,28 @@ function ButtonAppBar(props) {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  };
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
+  }
+
+  const onLogoutClick=()=>{
+    setAnchorEl(null)
+    Swal.fire({
+      title: `Are you sure to logout ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes !'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          localStorage.removeItem('id')
+          window.location.reload(true)
+      }
+    })
+  }
 
   return (
     <div className={classes.root}>
@@ -71,11 +89,9 @@ function ButtonAppBar(props) {
               :
               props.role === 'user' ?
               <Link to='/cart' style={{textDecoration:'none', color:'white'}}>
-                {/* <IconButton className="mr-3" aria-label="cart"> */}
-                  <StyledBadge className="mr-3" badgeContent={4} color="secondary">
+                  <StyledBadge className="mr-3" badgeContent={props.cart.length} color="secondary">
                     <ShoppingCartIcon />
                   </StyledBadge>
-                {/* </IconButton> */}
               </Link>
               :
               null
@@ -95,7 +111,7 @@ function ButtonAppBar(props) {
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
                 </Menu>
               </>
               :

@@ -26,7 +26,7 @@
       "startdate": "2020-09-16",
       "enddate": "2020-09-20",
       "price": "600000",
-      "description": "asik jalan jalan ke bali coyyy kapan lagi kann",
+      "description": "Bali is an Indonesian island known for its forested volcanic mountains, iconic rice paddies, beaches and coral reefs. The island is home to religious sites such as cliffside Uluwatu Temple. To the south, the beachside city of Kuta has lively bars, while Seminyak, Sanur and Nusa Dua are popular resort towns. The island is also known for its yoga and meditation retreats.",
       "id": 1
     },
     {
@@ -35,25 +35,25 @@
       "startdate": "2020-10-01",
       "enddate": "2020-10-08",
       "price": "5000000",
-      "description": "anjay gw ke jepang coy mau ikut ga lo semua ? hehehehe",
+      "description": "Japan is an island country of East Asia in the northwest Pacific Ocean. It borders the Sea of Japan to the west and extends from the Sea of Okhotsk in the north to the East China Sea and Taiwan in the south.",
       "id": 2
     },
     {
-      "tripname": "Trip to angel island",
-      "photo": "https://cruisingindonesia.com/media/k2/items/cache/c889234799e865bbe90cee71f6cd2e53_XL.jpg",
+      "tripname": "Trip to Maldives",
+      "photo": "https://www.peiaassociati.it/wp-content-pesecure/uploads/2016/05/Westin-Maldives-Aerial-02-1400x933.jpg",
       "startdate": "2020-09-23",
       "enddate": "2020-09-25",
-      "price": "100000000",
-      "description": "gila lo bisa ke pulai malaikat",
+      "price": "35000000",
+      "description": "Maldives, in full Republic of Maldives, also called Maldive Islands, independent island country in the north-central Indian Ocean. It consists of a chain of about 1,200 small coral islands and sandbanks (some 200 of which are inhabited), grouped in clusters, or atolls.",
       "id": 3
     },
     {
-      "tripname": "Trip to hell",
-      "photo": "https://billtammeus.typepad.com/.a/6a00d834515f9b69e20240a4af97e8200d-800wi",
+      "tripname": "Trip to Germany",
+      "photo": "https://cdn.cnn.com/cnnnext/dam/assets/170706112840-germany.jpg",
       "startdate": "2020-09-30",
       "enddate": "2020-10-29",
-      "price": "666666",
-      "description": "kabur coy",
+      "price": "20000000",
+      "description": "Germany is a Western European country with a landscape of forests, rivers, mountain ranges and North Sea beaches. It has over 2 millennia of history. Berlin, its capital, is home to art and nightlife scenes, the Brandenburg Gate and many sites relating to WWII. Munich is known for its Oktoberfest and beer halls, including the 16th-century Hofbräuhaus. Frankfurt, with its skyscrapers, houses the European Central Bank.",
       "id": 4
     },
     {
@@ -62,28 +62,72 @@
       "startdate": "2021-02-10",
       "enddate": "2021-02-17",
       "price": "25000000",
-      "description": "anjay jalan2 ke europe impian idaman",
+      "description": "Europe is a continent located entirely in the Northern Hemisphere and mostly in the Eastern Hemisphere. It comprises the westernmost part of Eurasia and is bordered by the Arctic Ocean to the north, the Atlantic Ocean to the west, the Mediterranean Sea to the south, and Asia to the east.",
       "id": 5
     }
   ],
-  "carts": [
+  "carts": [],
+  "transactions": [
     {
+      "status": "WaitingAdmin",
       "userId": 3,
-      "productId": 1,
+      "paymentdate": 1600657307777,
+      "method": "banktransfer",
+      "paymentproof": "asdasd",
+      "id": 1
+    },
+    {
+      "status": "WaitingAdmin",
+      "userId": 3,
+      "paymentdate": 1600657533804,
+      "method": "banktransfer",
+      "paymentproof": "asdasd",
+      "id": 2
+    },
+    {
+      "status": "Success",
+      "userId": 3,
+      "paymentdate": 1600659999860,
+      "method": "creditcard",
+      "paymentproof": "123123123",
+      "id": 3
+    }
+  ],
+  "transactionsdetails": [
+    {
+      "transactionId": 1,
+      "productId": 2,
+      "price": 5000000,
       "qty": 2,
       "id": 1
     },
     {
-      "userId": 3,
-      "productId": 3,
-      "qty": 5,
+      "transactionId": 1,
+      "productId": 2,
+      "price": 5000000,
+      "qty": 2,
       "id": 2
+    },
+    {
+      "transactionId": 1,
+      "productId": 3,
+      "price": 35000000,
+      "qty": 1,
+      "id": 3
+    },
+    {
+      "transactionId": 2,
+      "productId": 3,
+      "price": 35000000,
+      "qty": 2,
+      "id": 4
+    },
+    {
+      "transactionId": 3,
+      "productId": 3,
+      "price": 35000000,
+      "qty": 2,
+      "id": 5
     }
-  ],
-  "transactions": [
-
-  ],
-  "transactionsdetails": [
-
   ]
 }

@@ -16,12 +16,12 @@ const Home=(props)=>{
                 </div>
                 <div className="text-white d-flex align-items-center px-5" style={{height:"8vh", backgroundColor:"#FF8F54", justifyContent:"space-between"}}>
                     <div>
-                        Promo
+                        Promotion
                     </div>
                     <div>
                         <Link to='/products'>
                             <button className="btn button-promo">
-                                Lihat Promo
+                                See Promotions
                             </button>
                         </Link>
                     </div>
@@ -43,7 +43,7 @@ const Home=(props)=>{
                     </div>
                 </div>
                 <div className="text-white d-flex justify-content-center align-items-center" style={{height:"20vh", backgroundColor:"#FE6B8B"}}>
-                    <h1>Mau Gabung?</h1>
+                    <h1>Join us!</h1>
                 </div>
             </div>
         </>

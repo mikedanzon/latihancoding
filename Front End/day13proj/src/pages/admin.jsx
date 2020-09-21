@@ -28,7 +28,7 @@ const Toast = Swal.mixin({
     }
 })
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable(props) {
     const [modal, setModal] = useState(false)
     const [modaledit, setModalEdit] = useState(false)
     const [products, setProducts] = useState([])
