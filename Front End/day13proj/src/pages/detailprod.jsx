@@ -13,6 +13,7 @@ import { Addtocart } from '../redux/actions/authactions';
 function Detailprod(props) {
     const [loading, setLoading] = useState(true)
     const [products, setProducts] = useState({})
+    const [cartuser, setCartUser] = useState({})
     const [usir, setUsir] = useState(false)
     const qty = useRef()
 
@@ -20,7 +21,13 @@ function Detailprod(props) {
         Axios.get(`${URL_LOCALHOST}/products/${props.match.params.id}`)
         .then((res)=>{
             setProducts(res.data)
-            setLoading(false)
+            Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}`)
+            .then((res1)=>{
+                setCartUser(res1.data)
+                setLoading(false)
+            }).catch((err)=>{
+                console.log(err)
+            })
         }).catch((err)=>{
             console.log(err)
         })
@@ -30,23 +37,59 @@ function Detailprod(props) {
         if (props.role === 'admin') {
             Swal.fire('Admin cannot add to cart')
         } else if (props.role === 'user') {
-            Axios.post(`${URL_LOCALHOST}/carts`,{
-                userId:props.id,
-                productId: products.id,
-                qty: parseInt(qty.current.value)
-            }).then(()=>{
-                Axios.get(`${URL_LOCALHOST}/carts`,{
-                    params:{
-                        userId:props.id,
-                        _expand:'product'
+            if (qty.current.value) {
+                for (var i = 0; i < cartuser.length; i++) {
+                    if (cartuser[i].productId == products.id) {
+                        var tambah = cartuser[i].qty + parseInt(qty.current.value)
+                        Axios.patch(`${URL_LOCALHOST}/carts/${cartuser[i].id}`,{
+                            qty: tambah
+                        })
+                        .then(()=>{
+                            qty.current.value = ""
+                        }).catch((err)=>{
+                            console.log(err)
+                        })
+                        return Swal.fire({
+                            icon: 'success',
+                            text: 'This item has been updated on your cart'
+                        })
                     }
-                }).then((res)=>{
-                    props.Addtocart(res.data)
-                    alert("berhasil masuk cart")
-                }).catch((err)=>{
-                    console.log(err)
+                }
+                Swal.fire({
+                    text: "Are you sure to add this trip to your cart ?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes !'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Axios.post(`${URL_LOCALHOST}/carts`,{
+                            userId:props.id,
+                            productId: products.id,
+                            qty: parseInt(qty.current.value)
+                        }).then(()=>{
+                            Axios.get(`${URL_LOCALHOST}/carts`,{
+                                params:{
+                                    userId:props.id,
+                                    _expand:'product'
+                                }
+                            }).then((res)=>{
+                                props.Addtocart(res.data)
+                                window.location = `//localhost:3000/products/${products.id}`
+                            }).catch((err)=>{
+                                console.log(err)
+                            })
+                        })            
+                    }
+                }) 
+            } else {
+                return Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'You have to put quantity before add to cart'
                 })
-            })
+            }
         } else {
             Swal.fire('Please login before using the cart')
             .then((result)=>{

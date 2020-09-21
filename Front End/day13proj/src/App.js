@@ -5,6 +5,10 @@ import Login from './pages/login';
 import Product from './pages/listprod';
 import Detailprod from './pages/detailprod';
 import Cart from './pages/cart';
+import Register from './pages/register';
+import Cpass from './pages/changepass';
+import Managepay from './pages/managepayment';
+import Carthistory from './pages/carthistory';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import { connect } from 'react-redux';
@@ -68,6 +72,10 @@ function App(props) {
         <Route exact path='/products' component={Product}/>
         <Route path='/products/:id' component={Detailprod}/>
         <Route path='/cart' component={Cart}/>
+        <Route path='/register' component={Register}/>
+        <Route path='/changepass' component={Cpass}/>
+        <Route path='/managepayment' component={Managepay}/>
+        <Route path='/history' component={Carthistory}/>
         {pathProtectedAdmin()}
         <Route path='*' component={Notfound} />
       </Switch>

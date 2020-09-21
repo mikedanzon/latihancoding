@@ -16,6 +16,9 @@ import { priceFormatter } from '../helpers/idrcurrency'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TableFooter } from '@material-ui/core';
 import { Addtocart } from '../redux/actions/authactions';
+import Swal from 'sweetalert2';
+
+var creditCard = false;
 
 const Cart=(props)=>{
     const [cart, setCart] = useState([])
@@ -72,33 +75,38 @@ const Cart=(props)=>{
     // transactionsdetails ada id , transactions id , product , price , qty
 
     const onPaymentCC=()=>{
-        Axios.post(`${URL_LOCALHOST}/transactions`,{
-            status: 'Success',
-            userId: props.id,
-            paymentdate: new Date().getTime(),
-            method:'creditcard',
-            paymentproof:pembayaran.creditc.current.value
-        }).then((res)=>{
-            var arr = [];
-            cart.forEach((val)=>{
-                arr.push(Axios.post(`${URL_LOCALHOST}/transactionsdetails`,{
-                    transactionId: res.data.id,
-                    productId: val.productId,
-                    price: parseInt(val.product.price),
-                    qty: val.qty
-                }))
-            })
-            Axios.all(arr).then(()=>{
-                var deletearr = []
+        if (creditCard) {
+            Axios.post(`${URL_LOCALHOST}/transactions`,{
+                status: 'Success',
+                userId: props.id,
+                paymentdate: new Date().getTime(),
+                method:'creditcard',
+                paymentproof:pembayaran.creditc.current.value
+            }).then((res)=>{
+                var arr = [];
                 cart.forEach((val)=>{
-                    deletearr.push(Axios.delete(`${URL_LOCALHOST}/carts/${val.id}`))
+                    arr.push(Axios.post(`${URL_LOCALHOST}/transactionsdetails`,{
+                        transactionId: res.data.id,
+                        productId: val.productId,
+                        price: parseInt(val.product.price),
+                        qty: val.qty,
+                        userId: props.id
+                    }))
                 })
-                Axios.all(deletearr)
-                .then(()=>{
-                    Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
-                    .then((res1)=>{
-                        setCart(res1.data)
-                        toggle()
+                Axios.all(arr).then(()=>{
+                    var deletearr = []
+                    cart.forEach((val)=>{
+                        deletearr.push(Axios.delete(`${URL_LOCALHOST}/carts/${val.id}`))
+                    })
+                    Axios.all(deletearr)
+                    .then(()=>{
+                        Axios.get(`${URL_LOCALHOST}/carts?userId=${props.id}&_expand=product`)
+                        .then((res1)=>{
+                            setCart(res1.data)
+                            toggle()
+                        }).catch((err)=>{
+                            console.log(err)
+                        })
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -108,9 +116,12 @@ const Cart=(props)=>{
             }).catch((err)=>{
                 console.log(err)
             })
-        }).catch((err)=>{
-            console.log(err)
-        })
+        } else {
+            Swal.fire({
+                icon: 'error',
+                text:`Credit card number is incorrect`
+            })
+        }
     }
 
     const onPaymentBank=()=>{
@@ -167,6 +178,36 @@ const Cart=(props)=>{
         }
     }
 
+    const credit=(input)=>{
+        var angka=0
+        var output=0
+        var y=input
+        var a
+        do {
+            a=y%(10)
+            var b 
+            y=(y-a)/10
+            if(angka%2==1){
+                a*=2
+                if(a>9){
+                    b=a%10
+                    output+=(b+1)
+                } else {
+                    output+=a 
+                }
+            } else {
+                output+=a 
+            }
+            angka++
+        } while (y>0);
+        //console.log(angka)
+        if(output%10==0){
+            return creditCard = true 
+        } else {
+            return creditCard = false
+        }
+    }
+
     if (props.role !== 'user') {
         return <Notfound/>
     }
@@ -186,7 +227,7 @@ const Cart=(props)=>{
                         <input className="form-control" ref={pembayaran.transfer} placeholder="Bank Transfer Proof"></input>
                         :
                         pilihan === 2 ?
-                        <input className="form-control" ref={pembayaran.creditc} placeholder="Credit Card Number"></input>
+                        <input className="form-control" onChange={(e)=>{credit(e.target.value)}} ref={pembayaran.creditc} placeholder="Credit Card Number"></input>
                         :
                         null
                     }

@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import { URL_LOCALHOST } from '../helpers/url';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { LoginFunc } from '../redux/actions';
 import Swal from 'sweetalert2';
 
@@ -37,7 +36,7 @@ const useStyles = makeStyles(() => ({
 const Login=(props)=>{
     const classes = useStyles();
     const [logindata, setLoginData] = useState([])
-    const [logincheck, setLoginCheck] = useState([])
+    //const [logincheck, setLoginCheck] = useState([])
     const [isloading, setIsLoading] = useState(false)
     const [loginform, setLoginForm] = useState({
         username: useRef(),
@@ -59,7 +58,7 @@ const Login=(props)=>{
         var password = loginform.password.current.value;
         axios.get(`${URL_LOCALHOST}/users?username=${username}&password=${password}`)
         .then((res)=>{
-            setLoginCheck(res.data)
+            //setLoginCheck(res.data)
             if (res.data.length) {
                 localStorage.setItem('id',res.data[0].id)
                 props.LoginFunc(res.data[0])
@@ -75,6 +74,10 @@ const Login=(props)=>{
         }).catch((err)=>{
             console.log(err)
         })
+    }
+
+    const onRegister=()=>{
+        window.location="//localhost:3000/register"
     }
 
     if (props.isLogin) {
@@ -95,17 +98,24 @@ const Login=(props)=>{
                     <div className="mt-3">
                         <TextField className={classes.root} inputRef={loginform.password} type="password" id="outlined-basic" label="Password" fullWidth="true" variant="outlined" size="small" />
                     </div>
-                    <div className="mt-4 align-self-center">
-                        {
-                            isloading ?
-                            <button disabled className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
-                                Login
+                    <div className="d-flex mt-4 align-self-center">
+                        <div className="mr-4">
+                            {
+                                isloading ?
+                                <button disabled className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
+                                    Login
+                                </button>
+                                :
+                                <button onClick={onLoginClick} className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
+                                    Login
+                                </button>
+                            }
+                        </div>
+                        <div className="ml-5">
+                            <button onClick={onRegister} className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
+                                Register
                             </button>
-                            :
-                            <button onClick={onLoginClick} className="px-3 py-2 rounded text-white" style={{border:"white 1px solid",backgroundColor:"transparent"}}>
-                                Login
-                            </button>
-                        }
+                        </div>
                     </div>
                 </div>
             </div>

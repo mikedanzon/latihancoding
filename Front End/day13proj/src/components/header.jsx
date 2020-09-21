@@ -15,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Badge from '@material-ui/core/Badge';
 import Swal from 'sweetalert2';
+import { URL_LOCALHOST } from '../helpers/url';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,9 +65,13 @@ function ButtonAppBar(props) {
     }).then((result) => {
       if (result.isConfirmed) {
           localStorage.removeItem('id')
-          window.location.reload(true)
+          window.location = "//localhost:3000"
       }
     })
+  }
+
+  const onChangePassClick=()=>{
+      window.location = `//localhost:3000/changepass`
   }
 
   return (
@@ -81,6 +86,19 @@ function ButtonAppBar(props) {
             <Typography variant="h6" className={classes.title}>
                 Wild Trip
             </Typography>
+            {
+              props.role === 'admin' ?
+              <Link to='/managePayment' style={{textDecoration:'none', color:'white'}}>
+                  <Button color="inherit">Manage Payment</Button>
+              </Link>
+              :
+              props.role === 'user' ?
+              <Link to='/history' style={{textDecoration:'none', color:'white'}}>
+                  <Button className="mr-3" color="inherit">History</Button>
+              </Link>
+              :
+              null
+            }
             {
               props.role === 'admin' ?
               <Link to='/manageAdmin' style={{textDecoration:'none', color:'white'}}>
@@ -110,7 +128,7 @@ function ButtonAppBar(props) {
                   onClose={handleClose}
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={onChangePassClick}>Change Password</MenuItem>
                   <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
                 </Menu>
               </>
