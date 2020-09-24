@@ -18,28 +18,28 @@ function Fetchdata(url1) {
 }
 
 async function Tampilan() {
-    try {
-        const res = await Fetchdata(url)
-        var render = res.map((val) => {
-            return (
-                `<li>${val.tripname}</li>`
-            )
-        })
-        document.getElementById('list').innerHTML = render.join('')
-    } catch (error) {
-        alert(error)
-    }
-    // Fetchdata(url)
-    // .then((res)=>{
-    //     var render= res.map((val)=>{
+    // try {
+    //     const res = await Fetchdata(url)
+    //     var render = res.map((val) => {
     //         return (
     //             `<li>${val.tripname}</li>`
     //         )
     //     })
-    //     document.getElementById('list').innerHTML=render.join('')
-    // }).catch((err)=>{
-    //     alert(err)
-    // })
+    //     document.getElementById('list').innerHTML = render.join('')
+    // } catch (error) {
+    //     alert(error)
+    // }
+    Fetchdata(url)
+    .then((res)=>{
+        var render= res.map((val)=>{
+            return (
+                `<li>${val.tripname}</li>`
+            )
+        })
+        document.getElementById('list').innerHTML=render.join('')
+    }).catch((err)=>{
+        alert(err)
+    })
 }
 
 Tampilan()
