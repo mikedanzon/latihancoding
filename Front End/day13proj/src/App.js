@@ -18,8 +18,14 @@ import { URL_LOCALHOST } from './helpers/url';
 import Notfound from './pages/notfound';
 import Loading from './components/loading';
 
-// buat page user : history , register (ga wajib)
-// buat page admin : confirm admin , 
+// yang belom dilakuin (Ada juga yang musti di cek , tapi udah lewat ujian biarkan saja)
+// • ganti warna background div promo , ganti warna button , buat footer [nanti]
+// • edit readmore di admin (ada library readmore) [nanti]
+// • ganti foto admin semua cari yang tengahnya bagus , cek react reveal
+// • kalo di cart product sama musti di gabung otomatis (qty aja yang nambah)
+// • filter product + admin page + tambahin proteksi di semua
+// • buat page abis bayar redirect ato buat popup terima kasih gitu
+// • ganti tanggal jika cart tanggal udah lewat hilang
 
 function App(props) {
   const [loading, setLoading] = useState(true)
