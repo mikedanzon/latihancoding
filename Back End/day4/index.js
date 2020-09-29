@@ -1,11 +1,42 @@
-const http = require('http')
+const express = require('express')
+const app = express()
 
-var server = http.createServer((req,res)=>{
-    res.writeHead(200, {
-        'Content-type': 'text/html'
-    })
-    res.end('<h1>halo semuanya</h1>')
+app.get('/',(req,res)=>{
+    var dataku = {
+        name: 'max'
+    }
+    res.send(dataku)
+    // return res.status(300).send(dataku)
+    // bisa pake res.status (cek docs)
 })
 
-server.listen(5000)
-console.log("Server active port 5000")
+app.get('/max',(req,res)=>{
+    res.send('<h1>max</h1>')
+})
+
+app.get('/getdata',(req,res)=>{
+    res.send({testing:'test'})
+})
+
+app.get('/testingquery',(req,res)=>{
+    const {nama,usia} = req.query
+    if (nama) {
+        res.send("ada nama")
+        // link access http://localhost:5000/testingquery?nama=siapaaja
+    } else {
+        res.send("perlu pake query")
+    }
+})
+
+app.get('/testing/:id',(req,res)=>{
+    var a = req.params.id
+    if (a==1){
+        return res.send('satu')
+    } else {
+        return res.send('yang lain')
+    }
+})
+
+app.listen(5000,()=>{
+    console.log('API Active Port 5000')
+})
