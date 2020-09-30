@@ -1,12 +1,14 @@
 const express = require('express')
 const app = express()
 
+// res status 400 = not found , 200 = success , 300 = salah dari user , 500 = server error
+
 app.get('/',(req,res)=>{
     var dataku = {
         name: 'max'
     }
     res.send(dataku)
-    // return res.status(300).send(dataku)
+    // return res.status(200).send(dataku)
     // bisa pake res.status (cek docs)
 })
 
