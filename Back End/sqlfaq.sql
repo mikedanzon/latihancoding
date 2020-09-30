@@ -22,3 +22,7 @@
 -- buat yang lain" bisa liat doc mysql https://dev.mysql.com/doc
 
 SELECT * FROM toko.karyawan;
+
+SELECT * FROM mysql.user;
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'esCpGY9Fy3sy9ZmB';
