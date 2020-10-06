@@ -8,9 +8,10 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(express.static('public'))
-const { ProductRoutes, KaryawanRoutes } = require('./Routes')
+const { ProductRoutes, KaryawanRoutes, AuthRoutes } = require('./Routes')
 app.use('/products',ProductRoutes)
 app.use('/karyawans',KaryawanRoutes)
+app.use('/auth',AuthRoutes)
 //app.use(express.json()) // ganti pake bodyParser
 
 app.get('/',(req,res)=>{
@@ -24,16 +25,16 @@ app.get('/',(req,res)=>{
     `)
 })
 
-app.get('/encrypt',(req,res)=>{
-    var password = req.query.password
-    var katakunci = process.env.ENCRYPT_KEY
-    var hashpassword = crypto.createHmac('sha256',katakunci).update(password).digest('hex')
-    res.send({
-        passwordsebelum: password,
-        passwordencrypt: hashpassword,
-        panjangpass: hashpassword.length
-    })
-})
+// app.get('/encrypt',(req,res)=>{
+//     var password = req.query.password
+//     var katakunci = process.env.ENCRYPT_KEY
+//     var hashpassword = crypto.createHmac('sha256',katakunci).update(password).digest('hex')
+//     res.send({
+//         passwordsebelum: password,
+//         passwordencrypt: hashpassword,
+//         panjangpass: hashpassword.length
+//     })
+// })
 
 app.listen(5000,()=>{
     console.log('API Active Port 5000')
