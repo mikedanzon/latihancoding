@@ -14,6 +14,7 @@ import {
     NavbarText
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const Header = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -58,4 +59,10 @@ const Header = (props) => {
     );
 }
 
-export default Header;
+const Mapstatetoprops = (state) => {
+    return {
+        Auth: state.Auth
+    }
+}
+
+export default connect(Mapstatetoprops) (Header);

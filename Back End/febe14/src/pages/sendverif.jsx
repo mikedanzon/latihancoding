@@ -16,15 +16,6 @@ class SendVerified extends Component {
             email: this.props.Auth.email,
             userid: this.props.Auth.id
         }
-        Axios.post(`${API_URL}/auth/sendverify`, obj)
-            .then((res) => {
-                if (res.data) {
-                    alert('berhasil kirim email ulang')
-                    this.setState({ loading: false })
-                }
-            }).catch((err) => {
-                console.log(err)
-            })
     }
 
     render() {

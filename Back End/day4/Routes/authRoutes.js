@@ -4,6 +4,8 @@ const { encrypt } = require('../helpers')
 const nodemailer = require('nodemailer')
 const fs = require('fs')
 const handlebars = require('handlebars')
+const { createJWToken } = require('../helpers/jwt')
+const { auth } = require('../helpers/auth')
 
 let transporter = nodemailer.createTransport({
     service:'gmail',
@@ -38,7 +40,10 @@ Router.post('/register',(req,res)=>{ // auth buat register
                     if(err3){ return res.status(500).send(err3) }
                     const htmlrender = fs.readFileSync('index.html','utf-8')
                     const template = handlebars.compile(htmlrender) //return function
-                    const htmlemail = template({name:userslogin[0].username})
+                    const token = createJWToken({id:userslogin[0].id,username:userslogin[0].username}) // buat token
+                    // const link = `http://localhost:3000/verified?id=${userslogin[0].id}` // link tanpa token
+                    const link = `http://localhost:3000/verified?token=${token}`
+                    const htmlemail = template({name:userslogin[0].username,link:link})
                     transporter.sendMail({
                         from: "Cogan <mikedanzon@gmail.com>",
                         to: email,
@@ -47,6 +52,7 @@ Router.post('/register',(req,res)=>{ // auth buat register
                         // html: "<h1>Silahkan confirm email bang jago <a>CONFIRM EMAIL</a></h1>"
                     },(err)=>{
                         if(err){ return res.status(500).send(err) }
+                        userlogin[0].token = token
                         res.status(200).send(userslogin[0])
                     })
                 })
@@ -68,7 +74,24 @@ Router.post('/login',(req,res)=>{ // auth buat login
         }
         db.query('UPDATE users SET ? WHERE id = ?',[updateLogin,datausers[0].id],(err2,results2)=>{
             if(err2){ return res.status(500).send(err2) }
+            const token = createJWToken({id:datausers[0].id,username:datausers[0].username}) // buat token
+            datausers[0].token = token
             return res.send(datausers[0])
+        })
+    })
+})
+
+Router.get('/verified',auth,(req,res)=>{
+    // boleh pake query atau params
+    const {id} = req.user
+    let dataedit = {
+        isverified: true
+    }
+    db.query('UPDATE users SET ? WHERE id = ?',[dataedit,id],(err,results)=>{
+        if(err){ return res.status(500).send(err) }
+        db.query('SELECT * FROM users WHERE id = ?',[id],(err2,results2)=>{
+            if(err2){ return res.status(500).send(err2) }
+            res.status(200).send(results2[0])
         })
     })
 })
