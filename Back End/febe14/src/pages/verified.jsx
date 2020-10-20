@@ -3,6 +3,7 @@ import Axios from 'axios';
 import querystring from 'query-string';
 import { connect } from 'react-redux';
 import { API_URL } from '../helpers/apiurl';
+import { verifiedaction } from '../redux/actions';
 
 class Verified extends Component {
     state = {
@@ -19,7 +20,8 @@ class Verified extends Component {
             }
         })
         .then((res)=>{
-            console.log(res.data)
+            localStorage.setItem('datauser', JSON.stringify(res.data))
+            this.props.verifiedaction(res.data)
             this.setState({success:1})
         }).catch((err)=>{
             console.log(err)
@@ -68,4 +70,4 @@ const bebas = (state) => {
     }
 }
 
-export default connect(bebas) (Verified);
+export default connect(bebas,{verifiedaction}) (Verified);

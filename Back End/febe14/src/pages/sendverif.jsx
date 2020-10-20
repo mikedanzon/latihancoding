@@ -16,6 +16,15 @@ class SendVerified extends Component {
             email: this.props.Auth.email,
             userid: this.props.Auth.id
         }
+        Axios.post(`${API_URL}/auth/sendverified`,obj)
+        .then((res)=>{
+            if(res.data){
+                alert("success kirim email ulang")
+                this.setState({ loading: false })
+            }
+        }).catch((err)=>{
+            console.log(err)
+        })
     }
 
     render() {
@@ -28,11 +37,11 @@ class SendVerified extends Component {
                     </h1>
                     {
                         this.state.loading ?
-                            <div>
+                        <div>
                                 loading......
-                        </div> :
-                            <button onClick={this.onsendklik}>Klik ini</button>
-
+                        </div>
+                        :
+                        <button onClick={this.onsendklik}>Klik ini</button>
                     }
                 </center>
             </div>

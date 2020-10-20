@@ -28,3 +28,27 @@ export const LoginAction = (data) => {
             })
     }
 }
+
+export const KeepLogin =()=>{
+    return (dispatch)=>{
+        let datauser = localStorage.getItem('datauser')
+        if(datauser){
+            datauser = JSON.parse(datauser)
+            // mustinya cek token kalo kadaluarsa buat get di sql dan token baru
+            Axios.get(`${API_URL}/auth/keeplogin/${datauser.id}`)
+            .then((res)=>{
+                localStorage.setItem('datauser',JSON.stringify(res.data))
+                dispatch({ type: "LOGIN", payload: res.data })
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }
+}
+
+export const verifiedaction=(data)=>{
+    return {
+        type:"LOGIN", 
+        payload:data
+    }
+}

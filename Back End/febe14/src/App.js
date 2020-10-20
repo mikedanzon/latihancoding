@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Axios from 'axios';
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/header';
 import Home from './pages/home';
@@ -8,8 +7,14 @@ import Register from './pages/register';
 import Login from './pages/login';
 import Verified from './pages/verified';
 import SendVerified from './pages/sendverif';
+import { connect } from 'react-redux';
+import { KeepLogin } from './redux/actions';
 
 function App(props) {
+
+  useEffect(()=>{
+    props.KeepLogin()
+  },[])
 
   return (
     <div>
@@ -25,4 +30,6 @@ function App(props) {
   );
 }
 
-export default App;
+
+
+export default connect(null,{KeepLogin}) (App);

@@ -29,10 +29,7 @@ const Header = (props) => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         <NavItem className="mt-2 mr-3">
-                            <Link to="/register">Register</Link>
-                        </NavItem>
-                        <NavItem className="mt-2 mr-3">
-                            <Link to="/login">Login</Link>
+                            <Link to="/sendverified">Send Verified</Link>
                         </NavItem>
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>
@@ -52,7 +49,19 @@ const Header = (props) => {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
-                    <NavbarText>Simple Text</NavbarText>
+                    {
+                        props.Auth.isLogin ?
+                        null
+                        :
+                        <Nav>
+                            <NavItem className="mt-2 mr-3">
+                                <Link to="/register">Register</Link>
+                            </NavItem>
+                            <NavItem className="mt-2 mr-3">
+                                <Link to="/login">Login</Link>
+                            </NavItem>
+                        </Nav>
+                    }
                 </Collapse>
             </Navbar>
         </div>
